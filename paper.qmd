@@ -1,5 +1,5 @@
 ---
-title: "XRONOS: an open data infrastructure for archaeological chronometry"
+title: "XRONOS: an open infrastructure for chronometric data in archaeology"
 #date: today
 author:
   - name: Joe Roe
@@ -21,6 +21,8 @@ affiliations:
     country: Switzerland
     url: https://www.iaw.unibe.ch/
 abstract: |
+  XRONOS (<https://xronos.ch>) is an open data infrastructure for the backbone of the archaeological record – chronology. It provides open access to published radiocarbon dates and other chronometric data from any period, anywhere in the world.
+
   Chronometric data has been one of the principle domains in which open data and open science approaches have been applied over the last ten years. Comprehensive compilations of radiocarbon dates have become available for many parts of the world in the last decade and, as natural next step, there are now several initiatives to collate this data globally, including the retrieval tool c14bazAAR [@SchmidEtAl2019], the IntChron exchange format [@BronkRamseyEtAl2019], and the synthetic database p3kc14 [@BirdEtAl2022]. This move from archiving individual datasets to producing a living open data infrastructure for archaeological chronologies raises a number of challenges. Radiocarbon datasets are still sorely lacking for many parts of the world and, even in those regions with good coverage, the quality of data is highly uneven and largely undocumented. There exists no central repository ensuring the long-term sustainability and completeness of these datasets, and the potential of placing other sources of chronometric information (e.g. dendrochronology, typological dating) in an open data framework has hardly been realised at all.
   
   Here, building on and complementing these initiatives, we present XRONOS: a new web-based platform for chronometric data from archaeological contexts worldwide, combining an open data repository with tools for importing, curating and analysing chronometric information from diverse sources. The principal design goals of the software are to combine all available sources of radiocarbon and other chronometric data in single database; develop robust tools for the continuous ingestion and refinement of this data; and disseminate this data within an open and FAIR framework, embedding it in the wider world of Linked Open Data in archaeology and beyond.
@@ -43,22 +45,36 @@ format:
     toc: true
 ---
 
-## Abstract
-
-    Briefly summarize the software's purpose, key features, and potential impact.
-    Highlight the paper's objectives, methodology, and key findings.
-
 ## Introduction
 
     Introduce the context and significance of the scientific problem your software addresses.
     Explain the need for new software tools in this domain.
     Present an overview of the paper's structure.
 
+* Radiocarbon dates were open to begin with (*Radiocarbon*'s "date lists"), but this didn't scale and fell out of use
+* Even though the generation of this data is relatively centralised (in XX radiocarbon labs), those seeking a wider overview are now caught in a labour-intensive process of re-gathering it from literature into databases
+  * The coverage of these databases is uneven, systematically biases, and duplicative of each other
+  * Databases are put together *ad hoc* and rarely continuously maintained over long periods
+  * Even though the reporting of radiocarbon determinations is relatively standardised [@Millard2014], integration of these datasets is hampered by minor variations in encoding and wide variation in data quality/completeness
+* Other forms of chronometric data (dendro, typology, sea level, etc.) remain relatively untouched
+
+In this paper we:
+
+* Review the state of the art in radiocarbon data compilation (and other chronometric data, such as they are), highlighting the need for XRONOS
+* Describe XRONOS' software architecture, design goals, and currently-implemented features
+  * With a focus on the choices we made in representing/modelling chronological data
+* Assess the current state of the software and database, and give case studies of how it can be used
+* Conclude with our future plans
+
 ## Background
 
     Review relevant literature, discussing existing software tools and their limitations.
     Explain the scientific principles or theories that underlie the problem your software aims to solve.
     Highlight the gap in existing tools and the need for your software.
+    
+* There are a very large number of regional/specialist radiocarbon databases
+  * Summarise coverage in table
+* Also several efforts to bring this together: c14bazAAR, IntChron, p3kc14
 
 ## Software architecture
 
