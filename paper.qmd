@@ -1,11 +1,120 @@
 ---
-title: "paper"
+title: "XRONOS: an open data infrastructure for archaeological chronometry"
+#date: today
+author:
+  - name: Joe Roe
+    id: jr
+    orcid: 0000-0002-1011-1244
+    email: joseph.roe@unibe.ch
+    affiliation: 
+    - ref: iaw
+  - name: Martin Hinz
+    id: mh
+    orcid:  0000-0002-9904-6548 
+    email: martin.hinz@unibe.ch
+    affiliation: 
+    - ref: iaw
+affiliations:
+  - id: iaw
+    name: University of Bern
+    department: Institute of Archaeological Sciences
+    country: Switzerland
+    url: https://www.iaw.unibe.ch/
+abstract: |
+  Chronometric data has been one of the principle domains in which open data and open science approaches have been applied over the last ten years. Comprehensive compilations of radiocarbon dates have become available for many parts of the world in the last decade and, as natural next step, there are now several initiatives to collate this data globally, including the retrieval tool c14bazAAR [@SchmidEtAl2019], the IntChron exchange format [@BronkRamseyEtAl2019], and the synthetic database p3kc14 [@BirdEtAl2022]. This move from archiving individual datasets to producing a living open data infrastructure for archaeological chronologies raises a number of challenges. Radiocarbon datasets are still sorely lacking for many parts of the world and, even in those regions with good coverage, the quality of data is highly uneven and largely undocumented. There exists no central repository ensuring the long-term sustainability and completeness of these datasets, and the potential of placing other sources of chronometric information (e.g. dendrochronology, typological dating) in an open data framework has hardly been realised at all.
+  
+  Here, building on and complementing these initiatives, we present XRONOS: a new web-based platform for chronometric data from archaeological contexts worldwide, combining an open data repository with tools for importing, curating and analysing chronometric information from diverse sources. The principal design goals of the software are to combine all available sources of radiocarbon and other chronometric data in single database; develop robust tools for the continuous ingestion and refinement of this data; and disseminate this data within an open and FAIR framework, embedding it in the wider world of Linked Open Data in archaeology and beyond.
+  
+  This paper outlines the conceptual and technical infrastructure developed to realise these goals in XRONOS’ initial phases of development (2019 and 2021–2023), including a generalised data model for site and radiocarbon information, extendable to other chronometric data; an R- and Ruby-based pipeline for continuous ingestion of data from a variety of sources; continuous, semi-automated data cleaning protocols; a Ruby-on-Rails application providing a web-based frontend to the data and a REST API for programmatic access; and an R package for interfacing with the API. We believe the XRONOS framework provides more open, more reliable, and more comprehensive access to chronometric data than previously available, as well as a foundation for its continuous expansion and refinement.
+copyright: 
+  holder: the authors
+  year: 2023
+license: "CC BY"
+# citation: 
+#  container-title: Archaeometry
+#  volume: 1
+#  issue: 1
+#  doi: 10.5555/12345678
+funding: "This work was supported by the Swiss National Science Foundation ([SNSF Project #198152](https://data.snf.ch/grants/grant/198153))"
+bibliography: references.bib
+format:
+  html:
+    page-layout: article
+    toc: true
 ---
 
-## Quarto
+## Abstract
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+    Briefly summarize the software's purpose, key features, and potential impact.
+    Highlight the paper's objectives, methodology, and key findings.
 
-```{r}
-1 + 1
-```
+## Introduction
+
+    Introduce the context and significance of the scientific problem your software addresses.
+    Explain the need for new software tools in this domain.
+    Present an overview of the paper's structure.
+
+## Background
+
+    Review relevant literature, discussing existing software tools and their limitations.
+    Explain the scientific principles or theories that underlie the problem your software aims to solve.
+    Highlight the gap in existing tools and the need for your software.
+
+## Software architecture
+
+    Describe the software's architecture, algorithms, and data handling mechanisms.
+    Explain the programming languages, frameworks, and libraries used in its development.
+    Detail the key components and functionalities.
+
+## Design and user interfaces
+
+    Explain the software's user interface design and features.
+    Describe the user experience and how the interface enhances usability.
+    Include screenshots or diagrams to illustrate the interface.
+
+## Features and capabilities
+
+    Provide an in-depth overview of the software's features and capabilities.
+    Highlight its unique functionalities that set it apart from existing tools.
+    Discuss how these features address the scientific problem.
+
+## Performance evaluation
+
+    Present results from performance tests, such as speed, accuracy, and resource usage.
+    Compare your software's performance with existing alternatives if applicable.
+    Discuss any benchmark datasets or experiments used for evaluation.
+
+## Case studies and use cases
+
+    Provide real-world examples of how your software can be applied.
+    Describe case studies or experiments that showcase its effectiveness.
+    Include user testimonials or feedback.
+
+## Documentation and support
+
+    Discuss the availability of documentation, tutorials, and user manuals.
+    Explain how users can seek support or assistance when using the software.
+    Highlight any plans for future updates or enhancements.
+
+## Availability and licensing
+
+    Describe how and where users can access and download the software.
+    Specify the software's licensing model (e.g., open source, proprietary).
+    Explain any restrictions or usage terms.
+
+## Conclusion
+
+    Summarize the key findings and contributions of your software.
+    Discuss the significance of your software in advancing scientific knowledge.
+    Mention any limitations or challenges encountered during development.
+
+## Future work
+
+    Share your vision for the future development of the software.
+    Describe potential enhancements, new features, or research directions.
+    Address any planned updates or community contributions.
+
+## Acknowledgements {.appendix}
+
+* Setareh Ebrahimiabareghi
+* Tomasz J. Chmielewski
