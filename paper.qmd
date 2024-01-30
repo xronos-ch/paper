@@ -45,6 +45,7 @@ format:
   html:
     page-layout: article
     toc: true
+    embed-resources: true
 ---
 
 ## Introduction

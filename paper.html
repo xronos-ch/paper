@@ -3055,10 +3055,29 @@ vertical-align: -.125em;
 
 </head>
 
-<body class="fullcontent">
+<body>
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#compilations-of-radiocarbon-dates" id="toc-compilations-of-radiocarbon-dates" class="nav-link" data-scroll-target="#compilations-of-radiocarbon-dates">Compilations of radiocarbon dates</a></li>
+  <li><a href="#time-for-a-global-radiocarbon-database" id="toc-time-for-a-global-radiocarbon-database" class="nav-link" data-scroll-target="#time-for-a-global-radiocarbon-database">Time for a global radiocarbon database?</a></li>
+  <li><a href="#xronos" id="toc-xronos" class="nav-link" data-scroll-target="#xronos">XRONOS</a>
+  <ul class="collapse">
+  <li><a href="#design-goals-and-principles" id="toc-design-goals-and-principles" class="nav-link" data-scroll-target="#design-goals-and-principles">Design goals and principles</a></li>
+  <li><a href="#data-model" id="toc-data-model" class="nav-link" data-scroll-target="#data-model">Data model</a></li>
+  <li><a href="#software-architecture" id="toc-software-architecture" class="nav-link" data-scroll-target="#software-architecture">Software architecture</a></li>
+  </ul></li>
+  <li><a href="#implementation" id="toc-implementation" class="nav-link" data-scroll-target="#implementation">Implementation</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
+  </ul>
+</nav>
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -3076,7 +3095,9 @@ vertical-align: -.125em;
   </div>
   <div class="quarto-title-meta-contents">
         <p class="affiliation">
+            <a href="https://www.iaw.unibe.ch/">
             University of Bern
+            </a>
           </p>
       </div>
     <div class="quarto-title-meta-contents">
@@ -3084,7 +3105,9 @@ vertical-align: -.125em;
   </div>
   <div class="quarto-title-meta-contents">
         <p class="affiliation">
+            <a href="https://www.iaw.unibe.ch/">
             University of Bern
+            </a>
           </p>
       </div>
   </div>
@@ -3096,6 +3119,15 @@ vertical-align: -.125em;
     
   </div>
   
+<div>
+  <div class="abstract">
+    <div class="block-title">Abstract</div>
+    <p>XRONOS (<a href="https://xronos.ch" class="uri">https://xronos.ch</a>) is an open data infrastructure for the backbone of the archaeological record – chronology. It provides open access to published radiocarbon dates and other chronometric data from any period, anywhere in the world.</p>
+    <p>Chronometric data has been one of the principle domains in which open data and open science approaches have been applied over the last ten years. Comprehensive compilations of radiocarbon dates have become available for many parts of the world in the last decade and, as natural next step, there are now several initiatives to collate this data globally, including the retrieval tool c14bazAAR <span class="citation" data-cites="SchmidEtAl2019">(<a href="#ref-SchmidEtAl2019" role="doc-biblioref">Schmid, Seidensticker, and Hinz 2019</a>)</span>, the IntChron exchange format <span class="citation" data-cites="BronkRamseyEtAl2019">(<a href="#ref-BronkRamseyEtAl2019" role="doc-biblioref">Bronk Ramsey et al. 2019</a>)</span>, and the synthetic database p3kc14 <span class="citation" data-cites="BirdEtAl2022">(<a href="#ref-BirdEtAl2022" role="doc-biblioref">Bird et al. 2022</a>)</span>. This move from archiving individual datasets to producing a living open data infrastructure for archaeological chronologies raises a number of challenges. Radiocarbon datasets are still sorely lacking for many parts of the world and, even in those regions with good coverage, the quality of data is highly uneven and largely undocumented. There exists no central repository ensuring the long-term sustainability and completeness of these datasets, and the potential of placing other sources of chronometric information (e.g. dendrochronology, typological dating) in an open data framework has hardly been realised at all.</p>
+    <p>Here, building on and complementing these initiatives, we present XRONOS: a new web-based platform for chronometric data from archaeological contexts worldwide, combining an open data repository with tools for importing, curating and analysing chronometric information from diverse sources. The principal design goals of the software are to combine all available sources of radiocarbon and other chronometric data in single database; develop robust tools for the continuous ingestion and refinement of this data; and disseminate this data within an open and FAIR framework, embedding it in the wider world of Linked Open Data in archaeology and beyond.</p>
+    <p>This paper outlines the conceptual and technical infrastructure developed to realise these goals in XRONOS’ initial phases of development (2019 and 2021–2023), including a generalised data model for site and radiocarbon information, extendable to other chronometric data; an R- and Ruby-based pipeline for continuous ingestion of data from a variety of sources; continuous, semi-automated data cleaning protocols; a Ruby-on-Rails application providing a web-based frontend to the data and a REST API for programmatic access; and an R package for interfacing with the API. We believe the XRONOS framework provides more open, more reliable, and more comprehensive access to chronometric data than previously available, as well as a foundation for its continuous expansion and refinement.</p>
+  </div>
+</div>
 
 
 </header>
@@ -3107,6 +3139,16 @@ vertical-align: -.125em;
 <li>Chronometric modelling depends on ready access to chronometric data!</li>
 <li>Luckily, we do have a lot of it.</li>
 <li>Moving from ‘open data’ (uploading a CSV) to ‘open infrastructure’ <span class="citation" data-cites="CITE">(<a href="#ref-CITE" role="doc-biblioref"><strong>CITE?</strong></a>)</span></li>
+</ul>
+<p>In this paper we:</p>
+<ul>
+<li>Review the state of the art in radiocarbon data compilation (and other chronometric data, such as they are), highlighting the need for XRONOS</li>
+<li>Describe XRONOS’ software architecture, design goals, and currently-implemented features
+<ul>
+<li>With a focus on the choices we made in representing/modelling chronological data</li>
+</ul></li>
+<li>Assess the current state of the software and database, and give case studies of how it can be used</li>
+<li>Conclude with our future plans</li>
 </ul>
 </section>
 <section id="compilations-of-radiocarbon-dates" class="level2">
@@ -3124,16 +3166,19 @@ vertical-align: -.125em;
 <section id="time-for-a-global-radiocarbon-database" class="level2">
 <h2 class="anchored" data-anchor-id="time-for-a-global-radiocarbon-database">Time for a global radiocarbon database?</h2>
 <ul>
-<li>Recent moves towards a global synthesis: c14bazAAR <span class="citation" data-cites="SchmidEtAl2019">(<a href="#ref-SchmidEtAl2019" role="doc-biblioref">Schmid, Seidensticker, and Hinz 2019</a>)</span>, IntChron <span class="citation" data-cites="BronkRamseyEtAl2019">(<a href="#ref-BronkRamseyEtAl2019" role="doc-biblioref">Bronk Ramsey et al. 2019</a>)</span>, p3k14c <span class="citation" data-cites="BirdEtAl2022">(<a href="#ref-BirdEtAl2022" role="doc-biblioref">Bird et al. 2022</a>)</span></li>
-<li>Each taking a different approach, pros and cons</li>
-<li>We see a need for something that is comprehensive, unified, living</li>
-<li>And we don’t see why it should be limited to radiocarbon: what about other radiometric dates? Dendro? Typologies?</li>
+<li><p>Regional databases are put together <em>ad hoc</em> and rarely continuously maintained over long periods</p></li>
+<li><p>The coverage of these databases is uneven, systematically biased, and duplicative of each other</p></li>
+<li><p>Other forms of chronometric data (dendro, typology, sea level, etc.) remain relatively untouched</p></li>
+<li><p>Recent moves towards a global synthesis: c14bazAAR <span class="citation" data-cites="SchmidEtAl2019">(<a href="#ref-SchmidEtAl2019" role="doc-biblioref">Schmid, Seidensticker, and Hinz 2019</a>)</span>, IntChron <span class="citation" data-cites="BronkRamseyEtAl2019">(<a href="#ref-BronkRamseyEtAl2019" role="doc-biblioref">Bronk Ramsey et al. 2019</a>)</span>, p3k14c <span class="citation" data-cites="BirdEtAl2022">(<a href="#ref-BirdEtAl2022" role="doc-biblioref">Bird et al. 2022</a>)</span></p></li>
+<li><p>Each taking a different approach, pros and cons</p></li>
+<li><p>We see a need for something that is comprehensive, unified, living</p></li>
+<li><p>And we don’t see why it should be limited to radiocarbon: what about other radiometric dates? Dendro? Typologies?</p></li>
 </ul>
 </section>
 <section id="xronos" class="level2">
 <h2 class="anchored" data-anchor-id="xronos">XRONOS</h2>
-<section id="aims-and-design-principles" class="level3">
-<h3 class="anchored" data-anchor-id="aims-and-design-principles">Aims and design principles</h3>
+<section id="design-goals-and-principles" class="level3">
+<h3 class="anchored" data-anchor-id="design-goals-and-principles">Design goals and principles</h3>
 <ul>
 <li>Inspired by GBIF, which manages to integrate large amounts of data from diverse sources into a signal, consistent database</li>
 </ul>
@@ -3155,8 +3200,8 @@ vertical-align: -.125em;
 <li>Paper trail</li>
 </ul>
 </section>
-<section id="practical-considerations" class="level3">
-<h3 class="anchored" data-anchor-id="practical-considerations">Practical considerations</h3>
+<section id="software-architecture" class="level3">
+<h3 class="anchored" data-anchor-id="software-architecture">Software architecture</h3>
 <ul>
 <li>CRUD Rails app
 <ul>
@@ -3176,8 +3221,9 @@ vertical-align: -.125em;
 <p>The first prototype of XRONOS was developed in 2019. It has been under sustained development 2021–2024 with the first public release in July 2021.</p>
 <ul>
 <li>Assessment of XRONOS’ coverage</li>
-<li>Tale from the trenches: duplicate processing</li>
-<li>Tale from the trenches: cleaning species and countries</li>
+<li>Tale from the trenches: duplicate processing?</li>
+<li>Tale from the trenches: cleaning species and countries?</li>
+<li>Case study of use?</li>
 </ul>
 </section>
 <section id="conclusion" class="level2">
