@@ -4,10 +4,24 @@ author:
   - name: Joe Roe
     orcid: 0000-0002-1011-1244
     url: "https://joeroe.io"
-    email: joseph.roe@unibe.ch
     affiliation:
     - ref: iaw
-    roles: [writing, editing, software, analysis]
+    roles: [writing, editing, curation, software, analysis]
+  - name: Clemens Schmid
+    orcid: 0000-0003-3448-5715
+    affiliation:
+    - ref: mpg
+    roles: [curation, software, editing]
+  - name: Setareh Ebrahimiabareghi
+    orcid: 0000-0003-3749-3147
+    affiliation:
+    - ref: iaw
+    roles: [curation, investigation, editing]
+  - name: Caroline Heitz
+    orcid: 0000-0001-7188-6775
+    affiliation:
+    - ref: iaw
+    roles: [conceptualization, funding, editing]
   - name: Martin Hinz
     orcid: 0000-0002-9904-6548
     url: "https://martinhinz.info"
@@ -22,6 +36,10 @@ affiliations:
     department: Institute of Archaeological Sciences
     country: Switzerland
     url: https://www.iaw.unibe.ch/
+  - id: mpg
+    name: Max Planck Institute for Geoanthropology
+    country: Germany
+    url: https://www.shh.mpg.de/
 abstract: |
   XRONOS (<https://xronos.ch>) is an open data infrastructure for the backbone of the archaeological record – chronology. It provides open access to published radiocarbon dates and other chronometric data from any period, anywhere in the world.
 
@@ -91,14 +109,35 @@ In this paper we:
 
 ### Data model
 
-* Basic data structure inherited from RADON.
-* Chrons: coordinates linking a time, a place, and human activity
-  * Radiocarbon dates, typos, dendro etc.
-  * Departs from the usual convention of treating e.g. a "period" as a different sort of information to a scientific date
-  * In fact they can all be seen as the same kind of data
-  * Time element can be represented as a probability distribution
-  * Facilitates downstream modelling in e.g. OxCal, aoristic
+TODO: Figure: conceptual scheme, centred on chrons (i.e. an idealised form of the database).
+
+XRONOS data model is based on the concept of a set of coordinates in time or *chron*.
+We define a chron as an assertion that links human activity with a particular point in space and time.
+More concretely, our data model currently encompasses three types of chron: radiocarbon dates, typological dates (e.g. 'Early Neolithic') and dendrochronological dates.
+However we anticipate that the concept will accommodate all sorts of absolute and relative dating techniques, as the scope of the database expands.
+
+Chrons are useful conceptually because they emphasise that dates from different sources still consist of essentially the same kind of information: a statement locating an event in space and time.
+We thereby avoid privileging certain sources of chronological data over (as might be the case if, for example, we treated 'period' as a fixed attribute of a site) and can accommodate contradictory (e.g. differences of opinion on typological classification).
+This is important given that XRONOS aspires to be an authoratative 'backbone' with a global scope, so we cannot realistically impose a single chronological scheme or resolve conflicting information provided by specialists.
+They are useful practically because they expose a common interface for attributes that all types of chronological information share, such as a *terminus post quem*, *terminus ante quem*, and midpoint estimate.
+This allows applications that use XRONOS' data model (including XRONOS itself) to collate chronological data from multiple sources, without necessarily having to be aware of the pecularities of each type of dating.
+
+Key to 'unifying' chrons in this way is a common model of time.
+* Time element can be represented as a probability distribution
+  * Inspired by OxCal, aoristic analysis
+  * How you get to the PD representation can be very different (e.g. calibration vs. aoristic), but the important thing is the endpoint is the same.
+
+Chrons are located in space through association to a *sample* – the physical object from which a chronological determination was made.
+The location of samples is represented with geographical coordinates and an associated coordinate reference system (CRS), though since in practice the precise location of single samples is rarely available, this property is usually inherited from the site.
+We also record relevant metadata on the nature of the sample.
+For radiocarbon dates, for example, we follow established conventions [@Millard2014] in recording the type (e.g. charcoal, charred seed) and, where applicable, taxonomic designation (e.g. TODO, TODO) of the organic material used for dating.
+For typological dates, an ideal scenario would be for the sample to represent the particular object from which an inference was made (e.g. 'Natufian' might be inferred from 'lunate-type microlith').
+In practice, the best we can glean from most published datasets is the type of material used (e.g. 'pottery', 'lithics').
+The same sample can be associated with multiple chrons, including different types of chron.
+This is useful, for example, for representing replicate radiocarbon dates on the same sample, or radiocarbon dates and dendrochronological made on the same section of wood for wiggle-matching.
+
 * Contextual information: sample, context, site
+  * Different types of xrons can be attached to the same sample, context, or site, as appropriate
 * Bibliographic references
 * Paper trail
 
@@ -134,9 +173,8 @@ It has been under sustained development 2021–2024 with the first public releas
 
 Direct contributors to XRONOS (or invite as coauthors?):
 
-* Clemens Schmid
-* Caroline Heitz
 * Albert Hafner
-* Setareh Ebrahimiabareghi
 * Chiara Huwiler
 * Rivana Moser
+* Tomasz
+* Stephanie Döppler
