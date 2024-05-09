@@ -228,22 +228,25 @@ We hope that the combination of easy and open data access, the provision of anal
 
 TODO: Figure: conceptual scheme, centred on chrons (i.e. an idealised form of the database).
 
-XRONOS data model is based on the concept of a set of coordinates in time or *chron*.
-We define a chron as an assertion that links human activity with a particular point in space and time.
-More concretely, our data model currently encompasses three types of chron: radiocarbon dates, typological dates (e.g. 'Early Neolithic') and dendrochronological dates.
-However we anticipate that the concept will accommodate all sorts of absolute and relative dating techniques, as the scope of the database expands.
+At the base of the XRONOS data model are sets of spatiotemporal coordinates or, as we call them, *chrons*.
+In an archaeological context, we conceptualise a chron as an assertion linking human activity with a particular point in space and time.
+Our data model currently encompasses three types of chron: radiocarbon dates, typological dates (e.g. 'Early Neolithic') and dendrochronological dates.
+However we anticipate that the concept will accommodate other types of absolute and relative dating techniques, as the scope of the database expands.
 
-Chrons are useful conceptually because they emphasise that dates from different sources still consist of essentially the same kind of information: a statement locating an event in space and time.
+Chrons are conceptually useful because they emphasise that different types of archaeological 'dates', drawn from different sources, have essentially the same information content: the location of an event in space and time.
 We thereby avoid privileging certain sources of chronological data over (as might be the case if, for example, we treated 'period' as a fixed attribute of a site) and can accommodate contradictory (e.g. differences of opinion on typological classification).
 This is important given that XRONOS aspires to be an authoratative 'backbone' with a global scope, so we cannot realistically impose a single chronological scheme or resolve conflicting information provided by specialists.
-They are useful practically because they expose a common interface for attributes that all types of chronological information share, such as a *terminus post quem*, *terminus ante quem*, and midpoint estimate.
+They are useful practically because they expose a common interface for attributes that all types of chronological information share, such as a *terminus post quem* (TPQ), *terminus ante quem* (TAQ), and midpoint estimate.
 This allows applications that use XRONOS' data model (including XRONOS itself) to collate chronological data from multiple sources, without necessarily having to be aware of the pecularities of each type of dating.
 
-Key to 'unifying' chrons in this way is a common model of time.
-
-* Time element can be represented as a probability distribution
-  * Inspired by OxCal, aoristic analysis
-  * How you get to the PD representation can be very different (e.g. calibration vs. aoristic), but the important thing is the endpoint is the same.
+In order to unify chronological information in the form of a chron, we need a common chronological 'coordinate system'.
+The natural choice is a *calendar probability distribution*, which expresses the probability that an event occurred as a function of time on a calendric scale.
+Most archaeologists are familiar with working with this kind of representation in the form of calibrated radiocarbon dates, but it can be extended and generalised to essentially any kind of chronological information [@CITE].
+For example, in aoristic analysis [@CITE], a periodic time estimate (e.g. the event occurred in the Neolithic) is conceptualised as a uniform probability distribution over the timespan between the known start and end dates of that period.
+A similar model is used in OxCal [@OxCal, a direct inspiration for our approach] to integrate prior chronological information from diverse sources.
+In practical terms, this model means that the canonical representation the time component of any chron in XRONOS', regardless of source, is a probably distribution over the set of calendar years (arbitrarily measured in years Before Present) in which it could have plausibly occurred.
+Further statistics, e.g. a midpoint estimate or TPQ/TAQ range, can be derived from this distribution using well-known methods.
+In this way, we can support many different types of date and much of the implementation of XRONOS can be agnostic to the source of chronological information.
 
 Chrons are located in space through association to a *sample* – the physical object from which a chronological determination was made.
 The location of samples is represented with geographical coordinates and an associated coordinate reference system (CRS), though since in practice the precise location of single samples is rarely available, this property is usually inherited from the site.
@@ -254,16 +257,32 @@ In practice, the best we can glean from most published datasets is the type of m
 The same sample can be associated with multiple chrons, including different types of chron.
 This is useful, for example, for representing replicate radiocarbon dates on the same sample, or radiocarbon dates and dendrochronological made on the same section of wood for wiggle-matching.
 
-* Contextual information: sample, context, site
-  * Different types of xrons can be attached to the same sample, context, or site, as appropriate
+Further contextual information is associated with *contexts* and *sites*.
+The site is the primary geographic container for chronological information.
+As already mentioned, we typically record the spatial location of chrons using this entity, though it is possible to modify this by providing specific coordinates at the sample level.
+Sites also have attributes describing their conventional name or names in different languages and are associated with a flexible 'site type' typology that combines information on their form and function.
+
+A context represents the specific find-context of a sample, e.g. an architectural feature, stratigraphic unit, or phase.
+Since the units and conventions for recording such information vary greatly between different regions and archaeological traditions---and XRONOS is designed with global data in mind---we leave the question of what a context precisely represents open, and only record an unstandardised, free text label for it.
+Crucially, however, contexts can have a self-referential association to other contexts belonging to the same site.
+This allows it to encode arbitrary relational structures between contexts, whether they be hierarchical (e.g. phases and sub-phases) or graphical (e.g. stratigraphic).
+In this way, it can serve as a foundation for chronological modelling. <!-- TODO: reword, maybe a bit vague? -->
+
+The series of relations `[chron] > sample > context > site` links the chronological and contextual sides of the XRONOS data model.
+Each step is a many-to-many association, meaning for example that it is possible to attach multiple chrons to the same sample (e.g. replicated radiocarbon dates on the same material), multiple *types* of chrons to the same sample (e.g. radiocarbon dates on tree-rings for wiggle-matching).
+Since this kind of information is rarely systematically recorded in our source databases, there are currently few actual records that make use of this feature of the data model.
+However, we hope it will provide a foundation for ... ? <!-- TODO -->
+
 * Bibliographic references
 * Paper trail
 
+* LOD??
+
 ### Software architecture
 
-The XRONOS data model is implemented as a standard relational database using the free and open source database management system PostgreSQL.
+The XRONOS data model is implemented as a relational database using the free and open source database management system PostgreSQL.
 However, apart from backups and other routine maintenance procedures, all interaction with the database is via a web application, which thus forms the core of XRONOS' architecture.
-The XRONOS web application is written in Ruby and uses well-known CRUD (Create, Read, Update, Delete) and MVC (Model, View, Controller) patterns as implemented in the Ruby on Rails framework.
+The XRONOS web application is written in Ruby and uses CRUD (Create, Read, Update, Delete) and MVC (Model, View, Controller) patterns as implemented in the Ruby on Rails framework.
 The choice of this somewhat traditional or 'boring' architecture—as opposed to the non-relational/semantic technologies that are more *à la mode* in the digital humanities [@Fan2018; @Hyvonen2020; @SchloenProsser2023]—was purposeful, motivated by a sense that it offers a better chance of longevity and maintanability.
 Our aim is for the software architecture to be as boring as possible so that the scientific contents can be as interesting as possible.
 
@@ -273,28 +292,40 @@ Users can then interact with resources at these addresses using a preditable and
 For example, the radiocarbon date RTD-8904 is represented by the address <https://xronos.ch/c14s/156205>.
 Users can view information on this resource by sending a GET request to that address, regardless of which interface they are using, and authorised users can modify it using POST, PATCH, or DELETE requests.
 The bibliographic reference associated with this date [@RichterEtAl2017] is similarly represented at the address <https://xronos.ch/references/17778>, and can be accessed at that address using the same interface as the radiocarbon date.
-These uniform RESTful interfaces are another example of a boring architectural choice that make it easier for us to enrich the scientific contents of XRONOS, by  adding new types of modular resource that represent new scientific entities.
+These uniform REST interfaces are another example of a boring architectural choice that make it easier for us to enrich the scientific contents of XRONOS, by  adding new types of modular resource that represent new scientific entities.
 
-The graphical user interface to XRONOS, accessed through a web browser (e.g. at https://xronos.ch), uses RESTful resources as the building blocks for various interfaces through which users can browse, search, retrieve, and analyse chronometric data.
-It also provides 'backstage' interfaces (currently not public) for creating, editing, and deleting data, and monitoring data quality.
+This basic REST pattern is augmented by seven 'actions' (following the standard pattern in Rails application) that express different ways of interacting with a resource: index, show, destroy, new, create, edit, and update. 
+The 'show' action represents interaction with a single resource, as described above. 
+The 'index' action, which lists resources of a given type (e.g. <https://xronos.ch/c14s> for radiocarbon dates), is worth special mention because it is through this that the filtering logic at the core of XRONOS' two interfaces is implemented.
+By passing a query as HTTP GET parameters to the index action of a resource, the list returned the user is modified to only include records that match that query.
+For example, <https://xronos.ch/sites?site[country_code]=CH> (the part of the URL after the `?` character encodes the SQL WHERE clause `country = 'CH'` as a GET parameter) lists sites in Switzerland <!-- TODO: check this actually works -->.
+More complex queries can be executed using nested parameters.
+For example, <https://xronos.ch/c14s?c14[sample][material][name]=charcoal> (encoding that the `c14` table should be joined to the `material` table via `sample`, followed by the WHERE clause `material.name = 'charcoal'`) lists radiocarbon dates obtained from charcoal samples <!-- TODO: check that this actually works... -->.
+Uniquely, index actions can also respond with the result in a tabular data format (i.e. `.csv`).
 
-* RESTful
-* One record one page
-* Data
-* No sharp public/private boundary
-  * Eventually have multiple access levels, semi-public access to editing features, ability to have private data
+The graphical user interface (GUI) to XRONOS, accessed through a web browser (e.g. at https://xronos.ch), uses REST resources and actions as the building blocks for various interfaces through which users can browse, search, retrieve, and analyse chronometric data.
+Each action on each resource is represented by a page, though not all of these are publicly accessible.
+Pages representing REST resources directly are supplemented by a number of synthetic interfaces, for example the 'data browser' (<https://xronos.ch/data>), which facilitates more complex filtering, or the search interface (<https://xronos.ch/search>).
+The GUI also includes several resources which are not part of XRONOS' scientific data model, for example documentation pages, user profiles and news articles; these are currently not exposed in the API.
 
-XRONOS' API ...
-  * Data browser -> implementation
-* API
-  * JSON
-  - RESTFUL
-  * R package
-* Linked data
+Access to various 'backstage' interfaces for creating, editing, and deleting data, and monitoring data quality is managed using a user permissions system.
+Currently only authorised users affiliated with the XRONOS project can access these, but in the future we intend to support open registration and expose editing interfaces to all authenticated users.
+For this reason, there is no sharp division between a 'public' and 'private' areas – viewing/querying data and editing/curating data share the same architecture and interface patterns.
+<!-- TODO: say something about private data, even though it's not implemented yet? -->
 
-* Do stuff on the server side
-  * Because JS is fragile
-  * And then we can use it in multiple interfaces
+The XRONOS API uses the same addresses as the web-based GUI (with the exception of some of the synthetic interfaces mentioned above) but responds with machine-readable data in JSON format, rather than a HTML page.
+This response can be triggered by appending `.json` to the address or by including a HTTP `content-format` header in the request.
+Though users can make such requests manually and parse the data with one of several off-the-shelf tools, the primary intended uses of this interface is to provide access for 1) programmatic clients to XRONOS and 2) other web services.
+The XRONOS R package (discussed in more detail below) is an example of the former use, which could be extended to other programming environments used for scientific computing, e.g. Python or Haskell.
+<!-- TODO: example of a web service that might use the API? -->
+
+An overarching principle of this software architecture is that all interaction with XRONOS' data store, and as much of the data processing and 'business logic' of responding to REST requests as possible, is directed through the same server-side routines.
+First and foremost, this allows us to provide multiple interfaces (i.e. the GUI and API, perhaps more in the future) without duplicating these elements of our codebase.
+It also improves accessibility for users accessing XRONOS through devices with limited processing capability or through text-only browsers.
+More broadly, avoiding reliance on client-side processing, e.g. with Javascript or Web Assembly (WASM)---which would be the other option---allows us keep our client interfaces simple (in most cases plain, semantic HTML pages and self-contained stylesheets) and therefore, we hope, sustainable in the face of constantly-evolving client-side technologies and standards.
+It does have the weakness that, in practical terms, XRONOS is difficult to run and relies on the continued existence of a maintained external server.
+We have however tried to mitigate this by providing clearly-documented source code and regular data dumps so that, if our instance of XRONOS disappears, or if one simply does not want to use it, it is possible for others to host a XRONOS server of their own.
+As the sustainability of scientific software and data infrastructures is a pressing problem (a point we will return to in the conclusion), in the future it may be desirable to support further decentralisation through, for example, a federated server-server model [@CITE].
 
 ## Implementation
 
