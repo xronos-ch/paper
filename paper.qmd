@@ -78,6 +78,8 @@ For submission to Archaeometry. Guidelines:
 - Tables seperately in XLS
 - Figures seperately in TIFF or EPS
 - double spaced, wide
+
+OR as a JCAA 'case study' - 5,000 words
   -->
 
 ## Introduction
