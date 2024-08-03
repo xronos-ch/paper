@@ -49,6 +49,9 @@ keywords:
   - dendrochronology
   - typological dating
 published: "Manuscript for submission to the *Journal of Computer Applications in Archaeology*"
+execute:
+  echo: false
+number-sections: true
 bibliography: references.bib
 format:
   hikmah-pdf:
@@ -67,6 +70,26 @@ format:
 #    toc: true
 #    embed-resources: true
 ---
+
+```{r setup}
+library("countrycode")
+library("cowplot")
+library("dplyr", warn.conflicts = FALSE)
+library("giscoR")
+library("ggplot2")
+library("glue")
+library("khroma")
+library("patchwork", warn.conflicts = FALSE)
+library("readr")
+library("sf")
+library("tidyr")
+library("tinytable")
+
+#' Count number of rows in a filtered data frame
+n_filter <- function(.data, ...) {
+  nrow(dplyr::filter(.data, ...))
+}
+```
 
 <!--
 * [ ] First draft:
@@ -93,6 +116,13 @@ format:
   * [ ] Implementation
   * [ ] Evaluation
 * [ ] Figures and tables
+  * [x] FIGURE: graph of number of datasets through time
+  * [x] FIGURE: map of number of dates in datasets
+  * [ ] FIGURE: distribution of radiocarbon dates in c14bazAAR / IntChron / p3k14c / XRONOS
+  * [ ] FIGURE: data model
+  * [ ] FIGURE: GUI screenshots (data browser, c14 show view, version history, data curation)
+  * [ ] TABLE: list of 'issues'
+  * [ ] APPENDIX: table of datasets
 * [ ] Copyedit:
   * [ ] Introduction
   * [ ] State of the art
@@ -101,42 +131,132 @@ format:
   * [ ] Evaluation
   -->
 
-## Introduction
+# Introduction
 
-* Chronology is the backbone of the archaeological record – we need it to be open!
+Chronology is the backbone of the archaeological record.
+It is needed for X, Y, and Z.
+Open access to chronological data is therefore a critical...
 
-<!-- Prehistory of open radiocarbon 
-TODO: shorten -->
-Although 'open data' is often thought to be a new phenomenon in archaeology [@CITE], it has a long history in radiometric dating.
-Starting in the 19XXs, radiocarbon laboratories shared and compiled as 'date lists' published on a regular basis in the journal *Radiocarbon* [@CITE].
-However, as the number of labs and volume of radiocarbon dates being produced grew, this paper-based format became impractical: the last 'date list' appeared in 19XX, and unfortunately was not replaced by another form of systematic data-sharing or dissemination.
-Additionally, because the date lists were sourced from radiocarbon laboratories directly—not those who collected the sample—they typically included only very limited contextual information.
-Thus, even though radiocarbon data comes from a relatively limited number of sources [@IntCalLabList] and has relatively standardised reporting conventions [@Millard2014], in practice the only way to produce aggregated datasets recently has been to manually search through relevant literature for dates reported by the submitter of the sample.
-This already laborious process is further hampered by a significant inconsistency in how much authors adhere to measurement reporting conventions [@Millard2014], the lack of any convention on the reporting of contextual information, and weak or nonexistent disciplinary norms regarding the responsibility to publish results openly in a timely fashion.
-
-* Move to open compilations in the last ~10 years
+* Profusion of open C14 data in the last 20–30 years calls for global solutions
 * Range of other chronological information used by archaeologists is largely untouched
 * From uploading CSVs to (social) infrastructure
 
+# State of the art
 
-## State of the art
+## Compilations of radiocarbon dates
 
-### Compilations of radiocarbon dates
+Though 'open data' in archaeology is a relatively recent phenomenon [@CITE], the open publication of compiled radiocarbon dates has a substantial prehistory.
+Starting in the 19XXs, radiocarbon laboratories shared and compiled as 'date lists' published on a regular basis in the journal *Radiocarbon* [@CITE].
+However, as the number of labs and volume of radiocarbon dates being produced grew, this paper-based format became impractical: the last 'date list' appeared in 19XX, and was not replaced by another form of systematic data-sharing or dissemination.
+<!-- TODO: actually continued in *Archaeometry* -->
+Additionally, because the date lists were sourced from radiocarbon laboratories directly—not those who collected the sample—they typically included only very limited contextual information.
+On the eve of the AMS revolution there was an effort to create a computerised 'International Radiocarbon Database' [@Kra1988]—already by 1989 described as a "much needed, long overdue enterprise" [@Kra1989]—but it never came to fruition.
 
-* Where do radiocarbon dates come from and how are they published?
-* History of systematic compilations
-* Summary of existing databases
-  * FIGURE: graph of number of dates/databases through time
-  * FIGURE: map of radiocarbon database coverage
-  * TABLE: radiocarbon databases
-* Problems with current state of the art
+Thus, even though radiocarbon data comes from a relatively limited number of sources [@IntCalLabList] and has relatively standardised reporting conventions [@Millard2014; @Bayliss2015], in practice the only way to produce aggregated datasets in recent decades has been to manually search through relevant literature for dates reported by the submitter of the sample.
+This already laborious process is further hampered by a significant inconsistency in how much authors adhere to measurement reporting conventions, a lack of conventions on the reporting of *contextual* information, and weak or nonexistent disciplinary norms regarding the responsibility to publish results openly in a timely fashion.
 
-### Open data infrastructures
+```{r data-c14-datasets}
+c14_datasets <- read_tsv("data/c14_datasets.tsv", show_col_types = FALSE)
 
+n_c14_datasets <- nrow(c14_datasets)
+n_c14_datasets_sans_publication_year <- n_filter(c14_datasets, is.na(publication_year))
+```
 
-The profusion of radiocarbon compilations over the last decade has naturally prompted many to think more globally:
+Despite these inefficiencies, there have been a profusion of published radiocarbon compilations since the decline of the date list.
+Our review of the literature identified `r n_c14_datasets` published since 1994.
+This is almost certainly an undercount, because our firsthand knowledge of regional literature was limited to Europe and West Asia and many resources only ever existed in 'grey' formats (e.g. websites that were not indexed and no longer exist).
+We also restricted ourselves to structured datasets disseminated primarily in a digital format; 
+'date lists' in printed periodicals and gazetteers were excluded.
+A full list of the datasets we identified is presented in appendix XXXX<!-- TODO -->.
 
-- The first available radiocarbon 'metadatabase' was **c14bazAAR** [@CITE], an R package that provides an index of openly published radiocarbon databases and a common interface for retrieving them and performing basic data cleaning.
+```{r fig-c14-datasets-time}
+#| fig-cap: Cumulative number of radiocarbon compilations published since 1995
+c14_datasets |>
+  drop_na(publication_year) |>
+  count(publication_year, sort = TRUE) |>
+  arrange(publication_year) |>
+  mutate(cumn = cumsum(n)) |>
+  ggplot(aes(publication_year, cumn)) +
+  geom_line() +
+  scale_x_continuous(breaks = scales::breaks_width(5)) +
+  labs(x = NULL, y = "Datasets*",
+       caption = glue("* Excludes {n_c14_datasets_sans_publication_year} datasets with an unknown year of publication")) +
+  theme_half_open()
+```
+
+The number of available compilations has steadily increased since around 1995 [@fig-c14-datasets-time].
+The first generation came around the turn of the century and consisted mostly of online databases with a web frontend.
+These included some databases operated by radiocarbon labs, for example the Oxford Radiocarbon Lab (ORAU) and the Belgian Royal Institute for Cultural Heritage (KIK-IRPA), and essentially represented a continuation of their date lists in a digital format.
+The majority, however, were compiled from the literature and individual researchers interested in a particular region.
+Notable early examples include ANDES 14C in 1994 [Central Andes, @MichczynskiEtAl1995], CARD [Canada, @GajewskiEtAl2011] and RADON [Europe, @Raetzel-Fabian1999] in 1999, and CANEW in 2001 [Near East, @ReingruberThissen2005].
+From 2010, coinciding with broader shifts in scientific publishing [@TenopirEtAl2011], it became more common to publish standalone 'open data' products in the form of journal supplements, archives in repositories and/or data papers;
+the *[Journal of Open Archaeology Data](<https://openarchaeologydata.metajnl.com>)*, launched in 2012, has been a prominent venue for this latter category.
+Most recently there has been a trend towards providing version-controlled plain text data via platforms such as [GitHub](https://github.com), reflecting the broader adoption of these tools amongst computational archaeologists over the last decade [@BatistRoe2024].
+The shift from online databases towards more static but more preservable open data products is welcome, given how many databases from the first generation have subsequently ceased to be accessible.
+Version-controlled repositories are particular well-suited to data compilation projects because they allow for continued updates whilst still providing snapshot 'releases' that are citeable and can be archived in long-term repositories.
+
+```{r data-basemap}
+coast <- gisco_get_coastallines()
+m49_regions <- gisco_get_countries() |>
+  mutate(
+    m49_macroregion = countrycode(ISO3_CODE, "iso3c", "un.region.name"),
+    m49_subregion = countrycode(ISO3_CODE, "iso3c", "un.regionsub.name"),
+    m49_intregion = countrycode(ISO3_CODE, "iso3c", "un.regionintermediate.name"),
+    m49_region = coalesce(m49_intregion, m49_subregion)
+  ) |>
+  summarise(geometry = st_union(geometry), .by = m49_region)
+
+```
+
+```{r fig-c14-datasets-map}
+#| fig-cap: Geographic coverage of published regional radiocarbon compilations
+c14_datasets |>
+  separate_longer_delim(m49_region, "; ") |>
+  drop_na(m49_region) |>
+  summarise(n_dates = sum(n_dates, na.rm = TRUE), .by = m49_region) |>
+  right_join(m49_regions) |>
+  mutate(n_dates = replace_na(n_dates, 0)) |>
+  st_as_sf() |>
+  ggplot() +
+  geom_sf(aes(fill = n_dates), colour = NA) +
+  geom_sf(data = coast, fill = NA) +
+  scale_fill_turku(reverse = TRUE, labels = scales::comma) +
+  labs(fill = "Dates") +
+  coord_sf(crs = "+proj=moll") +
+  theme_map()
+```
+
+Although this body of work has greatly improved the accessibility of radiocarbon dates and supported significant methodological advances [@CremaBevan2021], some limitations are apparent.
+
+The geographic coverage of regional radiocarbon compilations is markedly uneven (@fig-c14-datasets-map).
+Europe and, especially, North America are very over-represented [as has already been observed by @ChaputGajewski2016 and others].
+South America, West Asia, and East Asia are reasonably well-covered, but there practically no systematically compiled dates from East or West Africa, Central or South Asia, or Mainland Southeast Asia.
+This is probably explained in part by a lower volume of archaeological research and access to radiocarbon dating in these regions, but a lack of attention in compilation work must also be a factor.
+For example, radiocarbon dating has been an established part of Indian archaeology since at least 1961 [@KusumgarEtAl1963], but we have not able to locate a single systematic compilation of dates from the Indian subcontinent.
+
+```{r data-c14-datasets-maintainance}
+n_c14_datasets_maintained <- n_filter(c14_datasets, maintained)
+n_c14_datasets_recently_updated <- n_filter(c14_datasets, maintained, last_updated > 2022)
+mean_c14_datasets_lifespan <- mean(c14_datasets$last_updated - c14_datasets$publication_year, na.rm = TRUE)
+```
+
+Compilations also become out of date almost immediately upon publication, due the the constant stream of new dates.
+Unfortunately this applies to many databases that are in theory continuously updated, as it is common to see them become unmaintained and or unexpectedly become unavailable.
+Of the `r n_c14_datasets` published datasets we identified, `r n_c14_datasets_maintained` were intended to be continuously updated, but only `r n_c14_datasets_recently_updated` had received updates in the last two years.
+The average 'lifespan' of a dataset from its publication to its last update is `r mean_c14_datasets_lifespan` years.
+Most radiocarbon datasets we reviewed were compiled with a specific goal in mind (e.g. a particular analysis) and, even where there is the intention to keep them updated afterwards, the exigencies of scientific production combined with the labour-intensive nature of the process make that difficult to achieve in practice.
+
+The fragmentation of the radiocarbon record into regional datasets also hinders analysis at larger scales.
+Although the core elements of a radiocarbon date—laboratory identifier, radiocarbon age, measurement error—are more or less standardised, there is no such consistency in contextual information on the sample or site.
+Such contextual information is important not just for the interpretation of dates, but for 'chronometric hygiene' [filtering out unreliable dates based on sample information, see e.g. @PettittEtAl2003] and for correcting for known systematic errors such as the marine reservoir effect [@AlvesEtAl2018].
+Most published datasets incorporate all or part of earlier compilations, duplicate records are also very common, but deduplicating them is not a trivial problem due to format variations (see @sec-implementation-data).
+These issues are by no means impossible to overcome, but adds a significant amount of data-cleaning effort to a process that is otherwise very amenable to standardisation.
+
+## Open data infrastructures
+
+The profusion of radiocarbon compilations over the last decade has naturally prompted many to think globally:
+
+- The first available synthetic radiocarbon database was **c14bazAAR** [@CITE], an R package that provides an index of openly published radiocarbon databases and a common interface for retrieving them and performing basic data cleaning.
 Because c14bazAAR downloads data from its original source repositories, rather than mirroring it, it only includes resources that have been published in a fully open and machine-accessible format.
 Despite this limitation, it has global coverage and is still the largest collection of radiocarbon dates available (see @FIG).
 
@@ -146,20 +266,19 @@ The JSON format also lends itself to the implementation of wrapper libraries, fo
 
 * **p3k14c** [@CITE] instead compiles multiple source databases into a single flat file dataset, with a similar level of coverage to c14bazAAR. The major advantage of this approach is that the data is made internally consistent and has been manually cleaned to an extent, which makes it particularly well-suited to global analyses. The downside is that without the continuous link to the source databases present in the c14bazAAR and IntChron, it can only be kept up to date manually with periodic re-releases. An accompanying package (@CITE) provides direct access to the p3k14c dataset in R.
 
+<!-- TODO: brief evaluation of the coverage of each -->
+
+<!-- TODO: probably should be in design goals or evaluation -->
 XRONOS blends aspects of all three approaches to achieve the same aim of providing access to the global radiocarbon data through a common interface.
 Like c14bazAAR and IntChron, it is a 'metadatabase' that draws from existing data resources and maintains an explicit link to them.
 But like p3k14c, it integrates these into a single database and applies data curation processes to harmonise them and improve the quality of the information.
 It has a wider scope than c14bazAAR or IntChron, as it mirrors rather than directly retrieves the source data (allowing us to use resources that aren't openly published), and does not rely on the authors of these sources to implement a common specification.
 It also goes beyond the functionality of p3k14c by providing systems for the contunious ingestion and curation of new data as it is published.
 However in general we see the approaches as complementary.
-A c14bazAAR parser for XRONOS is in development (https://github.com/ropensci/c14bazAAR/pull/150), and we also aim to provide an IntChron interface to XRONOS' data in the near future.
+A c14bazAAR parser for XRONOS is in development (<https://github.com/ropensci/c14bazAAR/pull/150>), and we also aim to provide an IntChron interface to XRONOS' data in the near future.
 New data and corrections from p3k14c are incorporated into XRONOS as they are released.
 
-XRONOS is our answer to Kintigh's call [@Kintigh2006] for digital infrastructures that don't just provide access to chronological data but enables researchers to "archive, access, integrate, and mine disparate data sets".
-It parallels and draws inspiration from several similar initiatives in archaeology, such as <!-- TODO examples -->
-And outside of it: <!-- TODO examples GBIF -->
-
-### Beyond radiocarbon
+## Beyond radiocarbon
 
 * Dendro
 * Typology
@@ -167,16 +286,22 @@ And outside of it: <!-- TODO examples GBIF -->
 * Application-specific 
 * XRONOS aims to bring all these together, starting with radiocarbon, dendro-, and typology
 
-## Concept
+# Concept
 
 XRONOS inherits its basic structure from RADON (@CITE), with a database-backed web application and a data model that separates radiocarbon dates, contextual information, and sites.
 Our overall aims in developing XRONOS is to bring this model, which RADON has operated on for XX years, up to date, to generalise it to other types of chronometric information, and to transform it from an online database to a data infrastructure that supports the continuous ingestion, curation, and open dissemination of archaeological chronologies from diverse sources.
 
-### Design goals
+## Design goals
+
+XRONOS is our answer to Kintigh's call [@Kintigh2006] for digital infrastructures that don't just provide access to chronological data but enables researchers to "archive, access, integrate, and mine disparate data sets".
+It parallels and draws inspiration from several similar initiatives in archaeology, such as <!-- TODO examples -->
+And outside of it: <!-- TODO examples GBIF -->
 
 <!-- TODO: Look at Martin's grant application and drafts -->
 
-### Data model
+* Link to limitations identified in the state of the art section
+
+## Data model
 
 * FIGURE: conceptual scheme
 
@@ -236,7 +361,7 @@ This 'paper trail' also stores contextual metadata, e.g. who made the change and
 It also means that records that are deleted can be reviewed or restored from their stored version history, which is never discarded.
 Together these two systems provide a transparent record where the data in XRONOS comes from and how it has been altered, which we view as essential in a scientific data infrastructure.
 
-### Linked data
+## Linked data
 
 The XRONOS data model presents several opportunities to link to other resources as linked open data (LOD) [@CITE].
 We use controlled vocabularies in the form of the GBIF Backbone Taxonomy (for taxonomic descriptions of samples) via its API, and in future plan to extend this to for example site types (using the Getty and/or DAI<!-- TODO: check & cite -->).
@@ -250,14 +375,14 @@ Conversely, we encourage others to use XRONOS as a linked open data resource by 
 Such usages could look like, for example, using a XRONOS URL as a canonical representation of a single radiocarbon date (e.g. <!-- TODO -->).
 We also plan to implement an IntChron ([@CITE]) interface to XRONOS, to allow it to be indexed through that existing standard.<!-- TODO: also mention RDF? -->
 
-## Implementation
+# Implementation
 
 Following a short pilot project in 2019, the first phase of development of XRONOS was completed in 2021–2024, supported by a project grant from the Swiss National Science Foundation.
 The web interface (<https://xronos.ch>) has been publicly accessible since July 2021.
 Though we envisage XRONOS as a continuously-developing open source project and 'living database', the following offers a snapshot of progress at the end of our first grant-funded implementation phase.
 We do not aim to be comprehensive, but rather to describe some key elements of XRONOS' current implementation that illustrate how our concept has been realised in practice.
 
-### Software architecture
+## Software architecture
 <!-- TODO: shorten -->
 
 <!-- Overview -->
@@ -286,7 +411,7 @@ More complex queries can be executed using nested parameters.
 For example, <https://xronos.ch/c14s?c14[sample][material][name]=charcoal> (encoding that the `c14` table should be joined to the `material` table via `sample`, followed by the WHERE clause `material.name = 'charcoal'`) lists radiocarbon dates obtained from charcoal samples <!-- TODO: check that this actually works... -->.
 Uniquely, index actions can also respond with the result in a tabular data format (i.e. `.csv`).
 
-### Data ingestion and curation
+## Data ingestion and curation {#sec-implementation-data}
 
 The chronological data in XRONOS comes from a variety of sources, including published structured datasets in repositories and journal supplements, other online databases, literature review, and direct input from collaborators.
 Our aim is not just to 'mirror' these sources as they are, but integrate them into a single curated and continuously updated database.
@@ -308,7 +433,7 @@ The end result of standardising and correcting a record is also often to create 
 Such exact duplicates can be merged automatically, with the oldest record becoming the authoratitive version, but detecting fuzzier duplicated information (e.g. differences in the spelling of site names) has proved a more difficult problem.
 As of writing there are therefore still many duplicate records in XRONOS that need to be manually resolved, but we hope to automate much more of this work in the future.
 
-### User interfaces
+## User interfaces
 
 <!-- TODO: figures? -->
 <!-- TODO: add in more concrete examples -->
@@ -342,7 +467,7 @@ It does have the weakness that, in practical terms, XRONOS is difficult to run a
 We have however tried to mitigate this by providing clearly-documented source code and regular data dumps so that, if our instance of XRONOS disappears, or if one simply does not want to use it, it is possible for others to host a XRONOS server of their own.
 As the sustainability of scientific software and data infrastructures is a pressing problem (a point we will return to in the conclusion), in the future it may be desirable to support further decentralisation through, for example, a federated server-server model [@CITE].
 
-## Evaluation
+# Evaluation
 
 * XRONOS is useable, use XRONOS!
 * Immediate development goals
