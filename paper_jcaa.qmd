@@ -299,9 +299,13 @@ In periods beyond the practical limit of radiocarbon dating (c. 50,000 BP), othe
 Conversely, in historic periods, radiocarbon is often relatively underused compared to conventional typological dating (based on artefact characteristics), which in these periods can offer comparable or better temporal resolution, or direct dating based on epigraphy [@HermankovaEtAl2021], numismatics [@KemmersMyrberg2011] or historical sources.
 In places where it is widely available, dendrochronology [@Baillie2014] also produces significantly better resolved chronologies and therefore tends to be the main source of chronometric data.
 Other more application-specific chronological methods include shoreline dating [@Brogger1905; @Roalkvam2023], lichenometry [@Benedict2009] and rock weathering dating [@Whitley2012; @Bednarik2020].
-There have been comparatively few examples of systematic, open compilations of any of these types of data.
 
-<!-- TODO: brief para on other radiometric/OSL -->
+Compared to radiocarbon, there are few examples of systematic, open compilations of any of these other types of data.
+
+This is most striking when it comes to other radiometric/scientific dating methods, as the data structures and publication modes are very similar to radiocarbon.
+The 'Radiocarbon Palaeolithic Europe Database' [@Vermeersch2020], despite the name, includes a significant number of TL (1177 items), OSL (1086 items), ESR, Th/U and AAR.
+Similarly, the AustArch database [@WilliamsEtAl2014] includes luminescence dates alongside radiocarbon, but is limited to Australia and was last updated in 2013.
+Other than this, we are not aware of any other significant published open datasets.
 
 <!-- TODO: MH -->
 For European dendrochronological data, the situation is even less favourable for archaeological purposes:
