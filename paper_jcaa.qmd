@@ -100,7 +100,7 @@ n_filter <- function(.data, ...) {
     * [ ] Beyond radiocarbon [500]
   * [ ] Concept [1000]
     * [x] Inherits a common structure from RADON
-    * [ ] Design goals [250]
+    * [x] Design goals [250/250]
     * [x] Data model [1150/500]
     * [x] LOD [250/250]
   * [x] Implementation [1000]
@@ -276,7 +276,7 @@ These issues are by no means impossible to overcome, but adds a significant amou
 * Not all are open
 * Not all are machine readable
 
-## Open data infrastructures
+## Open data infrastructures {#sec-global-compilations}
 
 The profusion of radiocarbon compilations over the last decade has naturally prompted many to think globally:
 
@@ -332,23 +332,18 @@ Our overall aims in developing XRONOS is to bring this model, which RADON has op
 ## Design goals
 
 XRONOS is our answer to Kintigh's call [@Kintigh2006] for digital infrastructures that don't just provide access to chronological data but enables researchers to "archive, access, integrate, and mine disparate data sets".
-It parallels and draws inspiration from several similar initiatives in archaeology, such as <!-- TODO examples -->
-And outside of it: <!-- TODO examples GBIF -->
+It parallels and draws inspiration from several similar initiatives within and outwith archaeology, such as <!-- TODO examples -->.
+To improve upon existing global syntheses of radiocarbon dates (see @sec-global-compilations), we aimed to develop a living infrastructure that both continually collected data from diverse sources and presented a seamless single database to the user.
+The Global Biodiversity Information Facility [GBIF, <https://gbif.org>, @CanhosEtAl2004]—which provides a single, consistent interface to many sources of global biodiversity data—has served as an exemplar for us in this regard.
 
-The principal design goals of the software are to combine all available sources of radiocarbon and other chronometric data in single database; 
-develop robust tools for the continuous ingestion and refinement of this data; 
-and disseminate this data within an open and FAIR framework, embedding it in the wider world of Linked Open Data in archaeology and beyond.
+Our principal goals for the software were therefore to:
 
-Our concrete goals in the design and implementation of XRONOS are the following:
+1. Combine all available sources of radiocarbon and other chronometric data in single database; 
+2. Develop robust tools for the continuous ingestion, collation and curation of this data;
+3. Disseminate the collated and curated data as linked open data within a FAIR framework.
 
-1. Provision of access to 14C and dendrochronological data with meta information on archaeological contexts via web-based Open Access frontend
-2. Web frontend with processing functions (filters and queries, export to various data formats, 14C calibration & chronology formation) for in place analytical functions
-3. machine readable interface --- API --- for direct access e.g. by open source statistical environments (eg. R) for analytical purposes or dendroanalytical software
-4. licensing and versioning of individual data using eg. DOI
-5. Storage in a repository with user and role-specific access rights as well as encryption for data privacy
-6. Ensuring sustainable data security and usage through compliance with standards, appropriate backup solutions and high-availability technologies
-
-* Link to limitations identified in the state of the art section
+Meeting these goals required principally the development of a) a conceptual data model, including links to other open data resources, that is flexible enough for all forms of chronometric data; and b) an software implementation that supports the main functions of ingesting, curating, and disseminating this data.
+The individual components of this work are described in more depth below but, briefly, consist of a relational data model implemented in a PostgreSQL database; a Ruby application providing server-based tools for ingestion, curation and dissemination of data; and multiple graphical and programmatic interfaces to the resulting dataset.
 
 ## Data model
 
