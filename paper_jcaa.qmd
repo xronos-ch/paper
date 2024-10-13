@@ -40,7 +40,7 @@ affiliations:
     country: Germany
     url: https://www.shh.mpg.de/
 abstract: |
-  XRONOS (<https://xronos.ch>) is an open data infrastructure for the backbone of the archaeological record – chronology. It aims provides open access to published radiocarbon dates and other chronometric data from any period, anywhere in the world. Collating a number of recent regional and global compilations of dates, XRONOS offers the most comprehensive radiocarbon database yet published, with over 350,000 date and 75,000 site records. It also provides a foundation for expanding the systematic collection of chronometric information beyond radiocarbon, with support for typological and dendrochronological dates and a generalisable data model that can be adapted to other methods of absolute dating. Automated and semi-automated quality control processes ensure that data from diverse sources is continuously integrated and standardised, making it significantly easier to filter data of interest and reducing the need for manual data cleaning by end users. In this paper we describe the concept and implementation of XRONOS in relation to the state of the art in chronometric data-sharing, and evaluate its potential as a general-purpose open repository and curation platform for archaeological chronology.
+  XRONOS (<https://xronos.ch>) is an open data infrastructure for the backbone of the archaeological record – chronology. It aims provides open access to published radiocarbon dates and other chronometric data from any period, anywhere in the world. By collating a large number of existing regional and global compilations of dates, XRONOS offers the most comprehensive radiocarbon database yet published, with over 350,000 radiocarbon and 75,000 site records. It also provides a foundation for expanding the systematic collection of chronometric information beyond radiocarbon, with support for typological and dendrochronological dates and a generalisable data model that can be adapted to other methods of absolute dating. Automated and semi-automated quality control processes ensure that data from diverse sources is continuously integrated and standardised, making it significantly easier to filter data of interest and reducing the need for manual data cleaning by end users. In this paper we describe the concept and implementation of XRONOS in relation to the state of the art in chronometric data-sharing, and evaluate its potential as a general-purpose open repository and curation platform for archaeological chronology.
 keywords: 
   - open data
   - chronology
@@ -93,7 +93,7 @@ n_filter <- function(.data, ...) {
 
 <!--
 * [ ] First draft:
-  * [ ] Introduction [500]
+  * [x] Introduction [530/500]
   * [ ] State of the art [2000]
     * [x] Compilations of radiocarbon dates [1000]
     * [x] Open data infrastructures [500]
@@ -109,8 +109,8 @@ n_filter <- function(.data, ...) {
     * [x] Data ingestion and integration [500/300]
     * [x] User interfaces [650/300]
   * [ ] Evaluation [500]
-* [ ] Add references:
-  * [ ] Introduction
+* [ ] Complete references:
+  * [x] Introduction
   * [ ] State of the art
   * [ ] Concept
   * [ ] Implementation
@@ -135,18 +135,33 @@ n_filter <- function(.data, ...) {
 # Introduction
 
 Chronology is the backbone of the archaeological record.
-It is needed for X, Y, and Z.
-Open access to chronological data is therefore a critical...
+As a necessary prerequisite to understanding the context of any past event or process [@Lucas2004], it is has unsurprisingly been at the forefront of methodological development in archaeology for as long as the discipline has existed: from putting finds and events in sequence [@Rowley-Conwy2007] to using scientific methods to place them on a real timescale [@Libby1955] and increasingly sophisticated statistical methods to refine them [@BronkRamsey2009].
+If archaeology is to be an open science [@Lake2012], it is therefore critical that effective open access to chronological information be placed front and centre.
 
-* Profusion of open C14 data in the last 20–30 years calls for global solutions
-* Range of other chronological information used by archaeologists is largely untouched
-* From uploading CSVs to (social) infrastructure
+Over the last two decades, archaeologists have answered this call by publishing an increasing number of compilations of dates from archaeological contexts as open data.
+These efforts have facilitated major reevaluations of previously-established chronologies [e.g. @HighamEtAl2014; @LoftusEtAl2019; @PratesEtAl2020; @KatsianisEtAl2020], important new insights into past processes [@RirisEtAl2024], and the development of novel ways of using chronological data [@Crema2022].
+<!-- TODO: Would welcome more citations here -->
+The focus has been overwhelmingly on radiocarbon dating and most compilations focus on a single region and/or period.
+The profusion of open radiocarbon data in particular has prompted several initiatives towards a global synthesis [e.g. @SchmidEtAl2019; @BronkRamseyEtAl2019; @BirdEtAl2022].
+
+At the same time, the broad range of other types of chronological information used in archaeology—from other radiometric methods to dendrochronology to typological seriation and numismatics—remains relatively difficult to access as open data.
+Even when it comes to radiocarbon data, the coverage of available compilations is patchy both geographically and in time and of variable quality (see @sec-c14-compilation).
+The publication of many overlapping, non-standardised and mostly static open data resources means that it is still difficult to obtain reliable and up-to-date chronological datasets, especially for applications that crosscut convential geographic and temporal domains of research.
+Initiatives towards synthesis this have improved this situation, but the goal of a global dataset that is both comprehensive and up-to-date remains elusive.
+
+XRONOS <https://xronos.ch> is a new open data infrastructure that aims to provide access to published radiocarbon dates and other chronometric data from any period, anywhere in the world.
+It is our attempt to move the state of the art in open archaeological chronology beyond the publication of static, one-off resources ['uploading CSVs', @Batist2023, pp. 188-189], and towards a living digital infrastructure [@Kintigh2006] embedded in a transparent and sustainable collabrative network.
+The core of XRONOS is a server application that ingests chronological data from diverse sources, facilitates semi-automated and manual curation of this data, and makes it available via both a web-based graphical user interface (GUI) and machine-readable application programming interface (API).
+The web frontend can be accessed via <https://xronos.ch> and all components of the software are developed as free and open source software with source code available at <https://github.com/xronos-ch>.
+
+In the remainder of this paper, we describe the concept and implementation of XRONOS in relation to the state of the art in open chronometric data in archaeology, and evaluate our progress in achieving these goals as of writing.
+Since we envisage both XRONOS as a dataset and XRONOS as software to be continually developing resources, the description here should be read as a 'snapshot' rather than the final state of the project.
 
 # State of the art
 
-## Compilations of radiocarbon dates
+## Compilations of radiocarbon dates {#sec-c14-compilation}
 
-Though 'open data' in archaeology is a relatively recent phenomenon [@CITE], the open publication of compiled radiocarbon dates has a substantial prehistory.
+Though an explicit emphasis on 'open data' is a relatively recent phenomenon in archaeology [@Lake2012], the open publication of compiled radiocarbon dates has a substantial prehistory.
 Starting in the 19XXs, radiocarbon laboratories shared and compiled as 'date lists' published on a regular basis in the journal *Radiocarbon* [@CITE].
 However, as the number of labs and volume of radiocarbon dates being produced grew, this paper-based format became impractical: the last 'date list' appeared in 19XX, and was not replaced by another form of systematic data-sharing or dissemination.
 <!-- TODO: actually continued in *Archaeometry* -->
@@ -312,7 +327,7 @@ What is completely missing worldwide so far, is a database that encompasses both
 # Concept
 
 XRONOS inherits its basic structure from RADON [@Raetzel-Fabian1999; @RADON; @RADONB; @RADONB2024], with a database-backed web application and a data model that separates radiocarbon dates, contextual information, and sites.
-Our overall aims in developing XRONOS is to bring this model, which RADON has operated on for XX years, up to date, to generalise it to other types of chronometric information, and to transform it from an online database to a data infrastructure that supports the continuous ingestion, curation, and open dissemination of archaeological chronologies from diverse sources.
+Our overall aims in developing XRONOS is to bring this model, which RADON has operated on for more than twenty years, up to date, to generalise it to other types of chronometric information, and to transform it from an online database to a data infrastructure that supports the continuous ingestion, curation, and open dissemination of archaeological chronologies from diverse sources.
 
 ## Design goals
 
