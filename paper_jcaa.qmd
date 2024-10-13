@@ -144,7 +144,7 @@ These efforts have facilitated major reevaluations of previously-established chr
 The focus has been overwhelmingly on radiocarbon dating and most compilations focus on a single region and/or period.
 The profusion of open radiocarbon data in particular has prompted several initiatives towards a global synthesis [e.g. @SchmidEtAl2019; @BronkRamseyEtAl2019; @BirdEtAl2022].
 
-At the same time, the broad range of other types of chronological information used in archaeology—from other radiometric methods to dendrochronology to typological seriation and numismatics—remains relatively difficult to access as open data.
+At the same time, the broad range of other types of chronological information used in archaeology—from other radiometric methods to dendrochronology to typological dating and epigraphy—remains relatively difficult to access as open data.
 Even when it comes to radiocarbon data, the coverage of available compilations is patchy both geographically and in time and of variable quality (see @sec-c14-compilation).
 The publication of many overlapping, non-standardised and mostly static open data resources means that it is still difficult to obtain reliable and up-to-date chronological datasets, especially for applications that crosscut convential geographic and temporal domains of research.
 Initiatives towards synthesis this have improved this situation, but the goal of a global dataset that is both comprehensive and up-to-date remains elusive.
@@ -294,21 +294,16 @@ The JSON format also lends itself to the implementation of wrapper libraries, fo
 
 ## Beyond radiocarbon
 
-* Dendro
-* Typology
-* Other radiometric methods
-* Application-specific 
-* XRONOS aims to bring all these together, starting with radiocarbon, dendro-, and typology
+Radiocarbon has been by far the most active area of open data compilation, but archaeological chronology incorporates a much more diverse range of sources of information [@Harding1999].
+In periods beyond the practical limit of radiocarbon dating (c. 50,000 BP), other types of radiometric (K–Ar, U–Pb, etc.), chemical or luminescence dating offer an alternative [@Aitken1999].
+Conversely, in historic periods, radiocarbon is often relatively underused compared to conventional typological dating (based on artefact characteristics), which in these periods can offer comparable or better temporal resolution, or direct dating based on epigraphy [@HermankovaEtAl2021], numismatics [@KemmersMyrberg2011] or historical sources.
+In places where it is widely available, dendrochronology [@Baillie2014] also produces significantly better resolved chronologies and therefore tends to be the main source of chronometric data.
+Other more application-specific chronological methods include shoreline dating [@Brogger1905; @Roalkvam2023], lichenometry [@Benedict2009] and rock weathering dating [@Whitley2012; @Bednarik2020].
+There have been comparatively few examples of systematic, open compilations of any of these types of data.
 
-* There are lots of other types of chronometric data!
-  * Dendro - in certain places (e.g. Switzerland!), way more important than radiocarbon
-  * Other radiometric/absolute dating methods, OSL, etc.
-  * Typology - still the backbone of many chronologies
-  * Application-specific: sea level dating, rock patina, etc.
-* Compilation of other types of dates has been much more limited.
-  * Exceptions: ...?
+<!-- TODO: brief para on other radiometric/OSL -->
 
-<!-- MH to do: -->
+<!-- TODO: MH -->
 For European dendrochronological data, the situation is even less favourable for archaeological purposes:
 
 * NOAA stores some global datasets, but has its main focus in the United States and, with its only 34 European prehistoric datasets, is not useful for the study of the European past.
@@ -321,6 +316,9 @@ For European dendrochronological data, the situation is even less favourable for
   * perio.do
   * Often embedded in other types of database (e.g. gazetteers)
   * But nobody has treated it as a form of chronometric data in its own right?
+    * Malta database?
+
+* XRONOS aims to bring all these together, starting with radiocarbon, dendro-, and typology
 
 What is completely missing worldwide so far, is a database that encompasses both, 14C and dendro data. However, to efficiently conduct data driven modelling of human-environmental dependencies and dynamics on the past, such a data base seems indispensable for future research.
 
@@ -542,7 +540,7 @@ It also improves accessibility for users accessing XRONOS through devices with l
 More broadly, avoiding reliance on client-side processing, e.g. with Javascript or Web Assembly (WASM)---which would be the other option---allows us keep our client interfaces simple (in most cases plain, semantic HTML pages and self-contained stylesheets) and therefore, we hope, sustainable in the face of constantly-evolving client-side technologies and standards.
 It does have the weakness that, in practical terms, XRONOS is difficult to run and relies on the continued existence of a maintained external server.
 We have however tried to mitigate this by providing clearly-documented source code and regular data dumps so that, if our instance of XRONOS disappears, or if one simply does not want to use it, it is possible for others to host a XRONOS server of their own.
-As the sustainability of scientific software and data infrastructures is a pressing problem (a point we will return to in the conclusion), in the future it may be desirable to support further decentralisation through, for example, a federated server-server model [@CITE].
+As the sustainability of scientific software and data infrastructures is a pressing problem, in the future it may be desirable to support further decentralisation through, for example, a federated server-server model [@CITE].
 
 # Evaluation
 
