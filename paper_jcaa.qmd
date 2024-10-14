@@ -97,7 +97,7 @@ n_filter <- function(.data, ...) {
   * [ ] State of the art [2000]
     * [x] Compilations of radiocarbon dates [1000]
     * [x] Open data infrastructures [500]
-    * [ ] Beyond radiocarbon [500]
+    * [x] Beyond radiocarbon [850/500]
   * [ ] Concept [1000]
     * [x] Inherits a common structure from RADON
     * [x] Design goals [250/250]
@@ -149,7 +149,7 @@ Even when it comes to radiocarbon data, the coverage of available compilations i
 The publication of many overlapping, non-standardised and mostly static open data resources means that it is still difficult to obtain reliable and up-to-date chronological datasets, especially for applications that crosscut convential geographic and temporal domains of research.
 Initiatives towards synthesis this have improved this situation, but the goal of a global dataset that is both comprehensive and up-to-date remains elusive.
 
-XRONOS <https://xronos.ch> is a new open data infrastructure that aims to provide access to published radiocarbon dates and other chronometric data from any period, anywhere in the world.
+XRONOS is a new open data infrastructure that aims to provide access to published radiocarbon dates and other chronometric data from any period, anywhere in the world.
 It is our attempt to move the state of the art in open archaeological chronology beyond the publication of static, one-off resources ['uploading CSVs', @Batist2023, pp. 188-189], and towards a living digital infrastructure [@Kintigh2006] embedded in a transparent and sustainable collabrative network.
 The core of XRONOS is a server application that ingests chronological data from diverse sources, facilitates semi-automated and manual curation of this data, and makes it available via both a web-based graphical user interface (GUI) and machine-readable application programming interface (API).
 The web frontend can be accessed via <https://xronos.ch> and all components of the software are developed as free and open source software with source code available at <https://github.com/xronos-ch>.
@@ -303,11 +303,11 @@ Other more application-specific chronological methods include shoreline dating [
 Compared to radiocarbon, there are few examples of systematic, open compilations of any of these other types of data.
 
 This is most striking when it comes to other radiometric/scientific dating methods, as the data structures and publication modes are very similar to radiocarbon.
-The 'Radiocarbon Palaeolithic Europe Database' [@Vermeersch2020], despite the name, includes a significant number of TL (1177 items), OSL (1086 items), ESR, Th/U and AAR.
+The 'Radiocarbon Palaeolithic Europe Database' [@Vermeersch2020], despite the name, includes a significant number of thermo- and optically stimulated luminescence, electon spin resonance, uranium–thorium and amino acid dates.
 Similarly, the AustArch database [@WilliamsEtAl2014] includes luminescence dates alongside radiocarbon, but is limited to Australia and was last updated in 2013.
-Other than this, we are not aware of any other significant published open datasets.
+Apart from these and a few other exceptions where other scientific dates are collected alongside radiocarbon, we are not aware of any open compilations of them.
 
-<!-- TODO: MH -->
+<!-- TODO: MH, update and turn into prose -->
 For European dendrochronological data, the situation is even less favourable for archaeological purposes:
 
 * NOAA stores some global datasets, but has its main focus in the United States and, with its only 34 European prehistoric datasets, is not useful for the study of the European past.
@@ -316,15 +316,20 @@ For European dendrochronological data, the situation is even less favourable for
 * The "Dendrochronological Database" of the Swiss Federal Institute for Forest, Snow and Landscape Research (WSL) has a worldwide focus on collected natural wood samples and has different goals than a database for archaeological wood material (furthermore, although announced a long time ago, this database is still not functional).
 * Although "Digital Collaboratory for Cultural Dendrochronology (DCCD). An international digital data library for dendrochronology" is well connected in the context of archaeological data services (e.g. ARIADNE), it is focused on the Netherlands (more than 2/3 of the data, while 0.08% of the Quercus data refer to Switzerland) and contains very few prehistoric data (about 2.5%). Furthermore, the overall activity in this database has decreased from 3846 new project records in 2010-2014 to only 83 since then (until the end of 2019).
 
-* Typology
-  * perio.do
-  * Often embedded in other types of database (e.g. gazetteers)
-  * But nobody has treated it as a form of chronometric data in its own right?
-    * Malta database?
+Typological dates—i.e. relative, expertise- or seriation-based dating based on artefact characteristics—is an interesting case because they are ubiquitous but rarely treated as a form of chronometric data in their own right.
+For example, the majority of the radiocarbon datasets we reviewed (@sec-c14-compilation) included some form of typological chronological information in the form of a 'period' or 'culture' column.
+This is also typically present in many other forms of systematic compilation work in archaeology, for example site gazetteers [@CITE].
+Aggregated typological information from such sources are often used in aoristic analysis and related methods [@Mischka2004; @Crema2024].
+What is lacking in this presentation of typological dating is metadata on how the determination was made and how exactly it is to be understood.
+Like any archaeological date, a typological date is derived from a physical sample – the object or set of object from which a chronological estimate was derived.
+Typological dates on one class of object may well clash with other classes of object, or for that matter with scientific dates, but without this kind of metadata such inconsistencies are difficult to resolve.
+Similarly the real calendar range corresponding to a typological date (e.g. "Late Neolithic") can be interpreted in multiple ways depending on the region and intentions of the expert making the determination.
+PeriodO [@RabinowitzEtAl2016] is a linked open data infrastructure that includes a shared vocabulary of typological periods and corresponding calendar age estimates, and an important step towards addressing the latter problem.
+However, it remains to be systematically linked to actual compilations of typological dates.
 
-* XRONOS aims to bring all these together, starting with radiocarbon, dendro-, and typology
-
-What is completely missing worldwide so far, is a database that encompasses both, 14C and dendro data. However, to efficiently conduct data driven modelling of human-environmental dependencies and dynamics on the past, such a data base seems indispensable for future research.
+What is completely missing to date is a general-purpose infrastructure for combining all of these types of chronometric information on a global scale.
+This is the gap that XRONOS aims to fill, starting with three methods: radiocarbon, dendrochronology, and typological dating.
+These were chosen because they are widely used and relatively advanced in terms of open data, but an important aim of the project is to develop a generalisable data model that can easily scale to any and all types of archaeological chronology (see @sec-data-model).
 
 # Concept
 
@@ -347,7 +352,7 @@ Our principal goals for the software were therefore to:
 Meeting these goals required principally the development of a) a conceptual data model, including links to other open data resources, that is flexible enough for all forms of chronometric data; and b) an software implementation that supports the main functions of ingesting, curating, and disseminating this data.
 The individual components of this work are described in more depth below but, briefly, consist of a relational data model implemented in a PostgreSQL database; a Ruby application providing server-based tools for ingestion, curation and dissemination of data; and multiple graphical and programmatic interfaces to the resulting dataset.
 
-## Data model
+## Data model {#sec-data-model}
 
 * FIGURE: conceptual scheme
 
