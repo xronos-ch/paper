@@ -269,7 +269,7 @@ Most radiocarbon datasets we reviewed were compiled with a specific goal in mind
 The fragmentation of the radiocarbon record into regional datasets also hinders analysis at larger scales.
 Although the core elements of a radiocarbon date—laboratory identifier, radiocarbon age, measurement error—are more or less standardised, there is no such consistency in contextual information on the sample or site.
 Such contextual information is important not just for the interpretation of dates, but for 'chronometric hygiene' [filtering out unreliable dates based on sample information, see e.g. @PettittEtAl2003] and for correcting for known systematic errors such as the marine reservoir effect [@AlvesEtAl2018].
-Most published datasets incorporate all or part of earlier compilations, duplicate records are also very common, but deduplicating them is not a trivial problem due to format variations (see @sec-implementation-data).
+Most published datasets incorporate all or part of earlier compilations, meaning duplicate records are also very common, but deduplicating them is not a trivial problem due to format variations (see @sec-implementation-data).
 These issues are by no means impossible to overcome, but adds a significant amount of data-cleaning effort to a process that is otherwise very amenable to standardisation.
 
 <!-- TODO: -->
@@ -512,7 +512,7 @@ If the system is not able to standardise a field using the available thesaurus, 
 A wide variety of other potential data quality issues (e.g. missing data on what country a site is in) are also flagged for human review by this system [@tbl-issues], which can often be semi-automated (e.g. suggesting close matches in the thesaurus or the country indicated by the record's coordinates).
 
 A final critical component of XRONOS' data curation system is duplicate handling.
-We import data from many overlapping resources (many of which incorporate each other either in whole or in part), so duplicate records are common.
+We import data from many overlapping resources (many of which incorporate each other either in whole or in part), so duplicate records are common [as recently discussed by @ReiterEtAl2024].
 The end result of standardising and correcting a record is also often to create a duplicate: e.g. the same sample imported from one source as 'oak' but another as '*Quercus* sp.' will become a duplicate pair as '*Quercus*', and thus be recognised as a single sample.
 Such exact duplicates can be merged automatically, with the oldest record becoming the authoratitive version, but detecting fuzzier duplicated information (e.g. differences in the spelling of site names) has proved a more difficult problem.
 As of writing there are therefore still many duplicate records in XRONOS that need to be manually resolved, but we hope to automate much more of this work in the future.
