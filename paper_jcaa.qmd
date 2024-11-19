@@ -135,7 +135,7 @@ n_filter <- function(.data, ...) {
 # Introduction
 
 Chronology is the backbone of the archaeological record.
-As a necessary prerequisite to understanding the context of any past event or process [@Lucas2004], it is has unsurprisingly been at the forefront of methodological development in archaeology for as long as the discipline has existed: from putting finds and events in sequence [@Rowley-Conwy2007] to using scientific methods to place them on a real timescale [@Libby1955] and increasingly sophisticated statistical methods to refine them [@BronkRamsey2009].
+As a necessary prerequisite to understanding the context of any past event or process [@Lucas2004], it is has unsurprisingly been at the forefront of methodological development in archaeology for as long as the discipline has existed: from putting finds and events in sequence [@Rowley-Conwy2007] to using scientific methods to place them on an absolute timescale [@Libby1955] and increasingly sophisticated statistical methods to refine them [@BronkRamsey2009].
 If archaeology is to be an open science [@Lake2012], it is therefore critical that effective open access to chronological information be placed front and centre.
 
 Over the last two decades, archaeologists have answered this call by publishing an increasing number of compilations of dates from archaeological contexts as open data.
@@ -200,7 +200,7 @@ c14_datasets |>
   theme_half_open()
 ```
 
-The number of available compilations has steadily increased since around 1995 [@fig-c14-datasets-time].
+The number of available compilations has steadily increased since around 1995 (@fig-c14-datasets-time).
 The first generation came around the turn of the century and consisted mostly of online databases with a web frontend.
 These included some databases operated by radiocarbon labs, for example the Oxford Radiocarbon Lab (ORAU) and the Belgian Royal Institute for Cultural Heritage (KIK-IRPA), and essentially represented a continuation of their date lists in a digital format.
 The majority, however, were compiled from the literature and individual researchers interested in a particular region.
@@ -208,7 +208,7 @@ Notable early examples include ANDES 14C in 1994 [Central Andes, @MichczynskiEtA
 From 2010, coinciding with broader shifts in scientific publishing [@TenopirEtAl2011], it became more common to publish standalone 'open data' products in the form of journal supplements, archives in repositories and/or data papers;
 the *[Journal of Open Archaeology Data](<https://openarchaeologydata.metajnl.com>)*, launched in 2012, has been a prominent venue for this latter category.
 Most recently there has been a trend towards providing version-controlled plain text data via platforms such as [GitHub](https://github.com), reflecting the broader adoption of these tools amongst computational archaeologists over the last decade [@BatistRoe2024].
-The shift from online databases towards more static but more preservable open data products is welcome, given how many databases from the first generation have subsequently ceased to be accessible.
+The shift from online databases towards more static but more preservable open data products is welcome, given how many databases from the first generation have subsequently ceased to be accessible.  <!-- TODO: can this be quantified or visualised? -MH -->
 Version-controlled repositories are particular well-suited to data compilation projects because they allow for continued updates whilst still providing snapshot 'releases' that are citeable and can be archived in long-term repositories.
 
 ```{r data-basemap}
@@ -285,7 +285,7 @@ Because c14bazAAR downloads data from its original source repositories, rather t
 Despite this limitation, it has global coverage and is still the largest collection of radiocarbon dates available (@FIG).
 
 - Another indexical approach is the **IntChron** project [@BronkRamseyEtAl2019], which exposes data from multiple sources and exposes them with a common JSON-based web interface.
-The IntChron specification is open, meaning that radiocarbon labs or compilation projects can implement it independently and thereby allow end users to access their data through a common itnerface (though to our knowledge it has so far only been adopted by databases associated with the Oxford Radiocarbon Lab).
+The IntChron specification is open, meaning that radiocarbon labs or compilation projects can implement it independently and thereby allow end users to access their data through a common interface (though to our knowledge it has so far only been adopted by databases associated with the Oxford Radiocarbon Lab).
 The JSON format also lends itself to the implementation of wrapper libraries, for example the 'rIntChron' package gives direct access to IntChron-indexed databases in R [@CITE].
 
 * **p3k14c** [@BirdEtAl2022] instead compiles multiple source databases into a single flat file dataset, with a similar level of coverage to c14bazAAR. The major advantage of this approach is that the data is made internally consistent and has been manually cleaned to an extent, which makes it particularly well-suited to global analyses. The downside is that without the continuous link to the source databases present in the c14bazAAR and IntChron, it can only be kept up to date manually with periodic re-releases. An accompanying package (@CITE) provides direct access to the p3k14c dataset in R.
@@ -322,8 +322,8 @@ This is also typically present in many other forms of systematic compilation wor
 Aggregated typological information from such sources are often used in aoristic analysis and related methods [@Mischka2004; @Crema2024].
 What is lacking in this presentation of typological dating is metadata on how the determination was made and how exactly it is to be understood.
 Like any archaeological date, a typological date is derived from a physical sample – the object or set of object from which a chronological estimate was derived.
-Typological dates on one class of object may well clash with other classes of object, or for that matter with scientific dates, but without this kind of metadata such inconsistencies are difficult to resolve.
-Similarly the real calendar range corresponding to a typological date (e.g. "Late Neolithic") can be interpreted in multiple ways depending on the region and intentions of the expert making the determination.
+Typological dates on one class of object may well clash with other classes of object, or for that matter with scientific dates, but without this kind of metadata such inconsistencies are difficult to resolve. <!-- TODO: clarify - MH -->
+Similarly the absolute date range corresponding to a typological determination (e.g. "Late Neolithic") can be interpreted in multiple ways depending on the region and intentions of the expert making the determination.
 PeriodO [@RabinowitzEtAl2016] is a linked open data infrastructure that includes a shared vocabulary of typological periods and corresponding calendar age estimates, and an important step towards addressing the latter problem.
 However, it remains to be systematically linked to actual compilations of typological dates.
 
@@ -399,7 +399,7 @@ This allows it to encode arbitrary relational structures between contexts, wheth
 In this way, it can serve as a foundation for chronological modelling. <!-- TODO: reword, maybe a bit vague? -->
 
 The series of relations `[chron] > sample > context > site` links the chronological and contextual sides of the XRONOS data model.
-Each step is a many-to-many association, meaning for example that it is possible to attach multiple chrons to the same sample (e.g. replicated radiocarbon dates on the same material), multiple *types* of chrons to the same sample (e.g. radiocarbon dates on tree-rings for wiggle-matching).
+Each step is a many-to-onone association, meaning for example that it is possible to attach multiple chrons to the same sample (e.g. replicated radiocarbon dates on the same material), multiple *types* of chrons to the same sample (e.g. radiocarbon dates on tree-rings for wiggle-matching).
 Since this kind of information is rarely systematically recorded in our source databases, there are currently few actual records that make use of this feature of the data model.
 However, we hope it will provide a foundation for ... ? <!-- TODO -->
 
@@ -567,7 +567,7 @@ XRONOS blends aspects of all three approaches to achieve the same aim of providi
 Like c14bazAAR and IntChron, it is a 'metadatabase' that draws from existing data resources and maintains an explicit link to them.
 But like p3k14c, it integrates these into a single database and applies data curation processes to harmonise them and improve the quality of the information.
 It has a wider scope than c14bazAAR or IntChron, as it mirrors rather than directly retrieves the source data (allowing us to use resources that aren't openly published), and does not rely on the authors of these sources to implement a common specification.
-It also goes beyond the functionality of p3k14c by providing systems for the contunious ingestion and curation of new data as it is published.
+It also goes beyond the functionality of p3k14c by providing systems for the continuous ingestion and curation of new data as it is published.
 However in general we see the approaches as complementary.
 A c14bazAAR parser for XRONOS is in development (<https://github.com/ropensci/c14bazAAR/pull/150>), and we also aim to provide an IntChron interface to XRONOS' data in the near future.
 New data and corrections from p3k14c are incorporated into XRONOS as they are released.
