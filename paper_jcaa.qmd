@@ -199,7 +199,7 @@ The shift from online databases towards more static but more preservable open da
 Version-controlled repositories are particular well-suited to data compilation projects because they allow for continued updates whilst still providing snapshot 'releases' that are citeable and can be archived in long-term repositories.
 
 ```{r data-basemap}
-#| warning: false
+#| include: false
 coast <- gisco_get_coastallines()
 m49_regions <- gisco_get_countries() |>
   mutate(
