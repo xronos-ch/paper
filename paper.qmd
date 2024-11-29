@@ -398,7 +398,7 @@ In this way, we can support many different types of date and much of the impleme
 Chrons are located in space through association to a *sample* – the physical object from which a chronological determination was made.
 The location of samples is represented with geographical coordinates and an associated coordinate reference system (CRS), though since in practice the precise location of single samples is rarely available, this property is usually inherited from the site.
 We also record relevant metadata on the nature of the sample.
-For radiocarbon dates, for example, we follow established conventions [@Millard2014] in recording the type (e.g. charcoal, charred seed) and, where applicable, taxonomic designation (e.g. TODO, TODO) of the organic material used for dating.
+For radiocarbon dates, for example, we follow established conventions [@Millard2014] in recording the type (e.g. charcoal, charred seed) and, where applicable, taxonomic designation (e.g. TODO, TODO<!--sorry, not fully clear what goes here. MH.-->) of the organic material used for dating.
 For typological dates, an ideal scenario would be for the sample to represent the particular object from which an inference was made (e.g. 'Natufian' might be inferred from 'lunate-type microlith').
 In practice, the best we can glean from most published datasets is the type of material used (e.g. 'pottery', 'lithics').
 The same sample can be associated with multiple chrons, including different types of chron.
@@ -416,9 +416,9 @@ This allows it to encode arbitrary relational structures between contexts, wheth
 In this way, it can serve as a foundation for chronological modelling. <!-- TODO: reword, maybe a bit vague? -->
 
 The series of relations `[chron] > sample > context > site` links the chronological and contextual sides of the XRONOS data model.
-Each step is a many-to-onone association, meaning for example that it is possible to attach multiple chrons to the same sample (e.g. replicated radiocarbon dates on the same material), multiple *types* of chrons to the same sample (e.g. radiocarbon dates on tree-rings for wiggle-matching).
+Each step is a many-to-one association, meaning for example that it is possible to attach multiple chrons to the same sample (e.g. replicated radiocarbon dates on the same material), multiple *types* of chrons to the same sample (e.g. radiocarbon dates on tree-rings for wiggle-matching).
 Since this kind of information is rarely systematically recorded in our source databases, there are currently few actual records that make use of this feature of the data model.
-However, we hope it will provide a foundation for ... ? <!-- TODO -->
+However, we hope it will provide a foundation for ... ? <!-- TODO Not fully clear what need to go here. MH. -->
 
 Metadata is incorporated into XRONOS' data model at the level of the individual records (e.g. all records store their data of creation and last modification) and through two additional nodes: bibliographic references and versions.
 Bibliographic references store information on the source of a record in BibTeX format and can be linked through many-to-many associations to
