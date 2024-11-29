@@ -151,11 +151,11 @@ Though an explicit emphasis on 'open data' is a relatively recent phenomenon in 
 <!-- TODO: check and update this about date lists... -->
 Arnold and Libby [-@ArnoldLibby1951] initiated the tradition of regularly publishing all the dates they had obtained.
 This practice was subsequently continued as radiocarbon laboratories periodically shared and compiled their own 'date lists', published mainly in the journals *Radiocarbon* and *Archaeometry*.
-However, as the number of labs and volume of radiocarbon dates being produced grew, this paper-based format became impractical and mostly disappeared (with exceptions, e.g. @NdeyeEtAl2022) without being replaced by another form of systematic data-sharing or dissemination [@BronkRamseyEtAl2019].
+However, as the number of labs and volume of radiocarbon dates being produced grew, this paper-based format became impractical and mostly disappeared [with exceptions, e.g. @NdeyeEtAl2022] without being replaced by another form of systematic data-sharing or dissemination [@BronkRamseyEtAl2019].
 Additionally, because the date lists were sourced from radiocarbon laboratories directly—not those who collected the sample—they typically included only very limited contextual information.
 On the eve of the AMS revolution there was an effort to create a computerised 'International Radiocarbon Database' [@Kra1988]—already by 1989 described as a "much needed, long overdue enterprise" [@Kra1989]—but it never came to fruition.
 
-Thus, even though radiocarbon data comes from a relatively limited number of sources (one of the 172 active labs, @RadiocarbonLabList) and has relatively standardised reporting conventions [@Millard2014; @Bayliss2015], in practice the only way to produce aggregated datasets in recent decades has been to manually search through relevant literature for dates reported by the submitter of the sample.
+Thus, even though radiocarbon data comes from a relatively limited number of sources [one of the 172 active labs, @RadiocarbonLabList] and has relatively standardised reporting conventions [@Millard2014; @Bayliss2015], in practice the only way to produce aggregated datasets in recent decades has been to manually search through relevant literature for dates reported by the submitter of the sample.
 This already laborious process is further hampered by a significant inconsistency in how much authors adhere to measurement reporting conventions, a lack of conventions on the reporting of *contextual* information, and weak or nonexistent disciplinary norms regarding the responsibility to publish results openly in a timely fashion.
 
 ```{r data-c14-datasets}
