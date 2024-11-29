@@ -440,7 +440,7 @@ Linking to Wikidata is especially useful because it dissimenates—and thereby p
 It also allows us to enrich the database with contextual information that otherwise be beyond our scope and resources, for example embedding multilingual descriptions of sites from Wikipedia articles on site records where the site has been linked to a Wikidata item.
 
 Conversely, we encourage others to use XRONOS as a linked open data resource by providing stable URLs and a machine-readable interface for every record.
-Such usages could look like, for example, using a XRONOS URL as a canonical representation of a single radiocarbon date (e.g. <!-- TODO -->).
+Such usages could look like, for example, using a XRONOS URL as a canonical representation of a single radiocarbon date (e.g. <!-- TODO Not fully clear what need to go here. MH. -->).
 We also plan to implement an IntChron interface to XRONOS, to allow it to be indexed through that existing standard.<!-- TODO: also mention RDF? -->
 
 # Implementation
@@ -523,7 +523,7 @@ tribble(
 ```
 
 Once ingested, we apply a number of automated and semi-automated quality control processes to integrate new data into the existing database.
-Controlled vocabularies are used in a number of places in the data model (@FIG), and we use thesauruses to automatically standardise these fields as much as possible.
+Controlled vocabularies are used in a number of places in the data model (@FIG), and we use thesauri to automatically standardise these fields as much as possible.
 For example, the taxonomic description of samples is controlled using GBIF's backbone taxonomy [@GBIF2023], and we also use a thesaurus service provided by GBIF to automatically change variant or obsolete taxonomic names to the canonical version.
 If the system is not able to standardise a field using the available thesaurus, it is flagged for manual correction.
 A wide variety of other potential data quality issues (e.g. missing data on what country a site is in) are also flagged for human review by this system [@tbl-issues], which can often be semi-automated (e.g. suggesting close matches in the thesaurus or the country indicated by the record's coordinates).
