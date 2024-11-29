@@ -173,7 +173,7 @@ We also restricted ourselves to structured datasets disseminated primarily in a 
 A full list of the datasets we identified is presented in appendix XXXX<!-- TODO -->.
 
 ```{r fig-c14-datasets-time}
-#| fig-cap: Cumulative number of radiocarbon compilations published since 1995
+#| fig-cap: Cumulative number of radiocarbon compilations published since 1995 according to our survey (see Supplementary Material).
 c14_datasets |>
   drop_na(publication_year) |>
   count(publication_year, sort = TRUE) |>
@@ -212,7 +212,7 @@ m49_regions <- gisco_get_countries() |>
 ```
 
 ```{r fig-c14-datasets-map, message=FALSE}
-#| fig-cap: Geographic coverage of published regional radiocarbon compilations
+#| fig-cap: Geographic coverage of published regional radiocarbon compilations according to our survey (see Supplementary Material).
 c14_datasets |>
   separate_longer_delim(m49_region, "; ") |>
   drop_na(m49_region) |>
