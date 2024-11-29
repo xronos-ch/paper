@@ -463,7 +463,7 @@ In this way, we can support many different types of date and much of the impleme
 Chrons are located in space through association to a *sample* – the physical object from which a chronological determination was made.
 The location of samples is represented with geographical coordinates and an associated coordinate reference system (CRS), though since in practice the precise location of single samples is rarely available, this property is usually inherited from the site.
 We also record relevant metadata on the nature of the sample.
-For radiocarbon dates, for example, we follow established conventions [@Millard2014] in recording the type (e.g. charcoal, charred seed) and, where applicable, taxonomic designation (e.g. TODO, TODO<!--sorry, not fully clear what goes here. MH.-->) of the organic material used for dating.
+For radiocarbon dates, for example, we follow established conventions [@Millard2014] in recording the type (e.g. charcoal, charred seed) and, where applicable, taxonomic designation (e.g. *Quercus*, *Triticum dicoccum*) of the organic material used for dating.
 For typological dates, an ideal scenario would be for the sample to represent the particular object from which an inference was made (e.g. 'Natufian' might be inferred from 'lunate-type microlith').
 In practice, the best we can glean from most published datasets is the type of material used (e.g. 'pottery', 'lithics').
 The same sample can be associated with multiple chrons, including different types of chron.
@@ -483,7 +483,7 @@ In this way, it can serve as a foundation for chronological modelling. <!-- TODO
 The series of relations `[chron] > sample > context > site` links the chronological and contextual sides of the XRONOS data model.
 Each step is a many-to-one association, meaning for example that it is possible to attach multiple chrons to the same sample (e.g. replicated radiocarbon dates on the same material), multiple *types* of chrons to the same sample (e.g. radiocarbon dates on tree-rings for wiggle-matching).
 Since this kind of information is rarely systematically recorded in our source databases, there are currently few actual records that make use of this feature of the data model.
-However, we hope it will provide a foundation for ... ? <!-- TODO Not fully clear what need to go here. MH. -->
+However, we hope it will provide a foundation for more nuanced chronological modelling in the future.
 
 Metadata is incorporated into XRONOS' data model at the level of the individual records (e.g. all records store their data of creation and last modification) and through two additional nodes: bibliographic references and versions.
 Bibliographic references store information on the source of a record in BibTeX format and can be linked through many-to-many associations to
@@ -500,13 +500,13 @@ The XRONOS data model presents several opportunities to link to other resources 
 We use controlled vocabularies in the form of the GBIF Backbone Taxonomy (for taxonomic descriptions of samples) via its API, and in future plan to extend this to for example site types (using the Getty and/or DAI<!-- TODO: check & cite -->).
 Standardising field using these vocabularies to automatically then link the two entities.
 Beyond this, there is also a concordance between XRONOS entities and other specialised data infrastructures in archaeology, such as Perio.do [@RabinowitzEtAl2016, mapping to typological chrons] and gazetters like Pleiades [@Pleiades] or Vici [@Voorburg2012, mapping to site names].
-Moving beyond archaeology, Wikidata (<https://wikidata.org>) already includes many of the concepts represented in the XRONOS model (e.g. archaeological sites, Q<!-- TODO Eg Q39671? MH.-->).
+Moving beyond archaeology, Wikidata (<https://wikidata.org>) already includes many of the concepts represented in the XRONOS model (e.g. an 'archaeological site', <https://www.wikidata.org/wiki/Q839954>).
 Linking to Wikidata is especially useful because it dissimenates—and thereby preserves—the data compiled in XRONOS beyond the narrow field of archaeology.
 It also allows us to enrich the database with contextual information that otherwise be beyond our scope and resources, for example embedding multilingual descriptions of sites from Wikipedia articles on site records where the site has been linked to a Wikidata item.
 
 Conversely, we encourage others to use XRONOS as a linked open data resource by providing stable URLs and a machine-readable interface for every record.
-Such usages could look like, for example, using a XRONOS URL as a canonical representation of a single radiocarbon date (e.g. <!-- TODO Not fully clear what need to go here. MH. -->).
-We also plan to implement an IntChron interface to XRONOS, to allow it to be indexed through that existing standard.<!-- TODO: also mention RDF? -->
+Such usages could look like, for example, using a XRONOS URL as a canonical representation of a single radiocarbon date (e.g. <https://xronos.ch/c14s/SMU-257> -> <https://xronos.ch/c14s/23410>).
+We also plan to implement additional view formats to facilitate this, such as IntChron-format JSON, to allow it to be indexed through the IntChron service, or RDF, which is widely used by many linked open data resources in the digital humanities.
 
 # Implementation
 
@@ -646,8 +646,8 @@ As the sustainability of scientific software and data infrastructures is a press
 
 # Evaluation
 
-In this paper we have outlined the conceptual and technical infrastructure developed during the initial phases of development on XRONOS in 2019 and 2021–2024.
-These include a generalised data model for radiocarbon and typological dates, extendable to other chronometric information, and associated contextual information;
+In this paper we have outlined the conceptual and technical infrastructure developed during the initial, SNF-funded phases of development on XRONOS in 2019 and 2021–2024.
+These include a generalised data model for radiocarbon and typological dates, extendible to other chronometric information, and associated contextual information;
 an R- and Ruby-based pipeline for continuous ingestion of data from a variety of sources; 
 continuous, semi-automated data cleaning protocols; 
 a Ruby-on-Rails application providing a web-based frontend to the data and a REST API for programmatic access; 
@@ -664,17 +664,15 @@ With that said, we see the approaches followed by as complementary rather than c
 A c14bazAAR parser for XRONOS is in development (<https://github.com/ropensci/c14bazAAR/pull/150>), and we also aim to provide an IntChron interface to XRONOS' data in the near future.
 New data and corrections from p3k14c are incorporated into XRONOS as they are released.
 
-We intend to continue development of XRONOS into the foreseeable future.
+Development of XRONOS will continue within the framework of 'ESTER', an ERC-funded research project on estimation of prehistoric population development from large, multiproxy datasets.
 Our immediate development goals include the incorporation of dendrochronology into the database, further refinement of our data curation pipelines, and the public release of the editing interfaces.
-<!--In parallel, the planned ERC Consolidator Grant Project ESTER, focusing on the estimation of population development in prehistory, will over the next five years play a crucial role in supporting the continuation and further development of the XRONOS database, ensuring its sustainability and fostering interdisciplinary collaboration.
--->
+
 Looking beyond the near term, we have endeavoured to create a sustainable infrastructure that can be maintained by a wider scholarly commons – though we must acknowledge that this is a difficult problem, and one that is more organisational than technical.
 The source code for all the software components of the system are available online (at <https://github.com/xronos-ch>) under open licenses.
 The databases of the instance at <https://xronos.ch> are also archived with Zenodo (<!-- TODO: link -->).
 With these two resources we reduce XRONOS' 'bus factor'; if we are not able to continue operating XRONOS, somebody else can fully recreate it.
 Equally importantly, we enable the 'right to fork' should others wish to take the software and/or database in another direction.
 But aside from these extreme scenarios, the long-term sustainability of XRONOS is contingent on the existence of a community of scholars that use and contribute back to it.
-In this we can only lead the horse to water; we cannot make it drink.<!-- TODO: too glib? -->
 
 # Acknowledgements
 
@@ -685,4 +683,3 @@ A complete and up-to-date list of acknowledgements for the project can be found 
 # Funding statement
 
 This work was funded by the Swiss National Science Foundation ([SNSF Project #198152](https://data.snf.ch/grants/grant/198153)) and the University of Bern (Initiator Grant, Caroline Heitz, Project 'Time and Temporality').
-
