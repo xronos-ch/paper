@@ -76,15 +76,19 @@ format:
 library("countrycode")
 library("cowplot")
 library("dplyr", warn.conflicts = FALSE)
+library("dm")
 library("giscoR")
 library("ggplot2")
 library("glue")
 library("gt", warn.conflicts = FALSE)
 library("khroma")
+library("magick")
 library("patchwork", warn.conflicts = FALSE)
 library("readr")
+library("RPostgres")
 library("sf")
 library("tidyr")
+library("webshot2")
 
 #' Count number of rows in a filtered data frame
 n_filter <- function(.data, ...) {
@@ -105,7 +109,7 @@ n_filter <- function(.data, ...) {
   * [x] FIGURE: graph of number of datasets through time
   * [x] FIGURE: map of number of dates in datasets
   * [ ] FIGURE: distribution of radiocarbon dates in c14bazAAR / IntChron / p3k14c / XRONOS
-  * [ ] FIGURE: data model
+  * [x] FIGURE: data model
   * [ ] FIGURE: GUI screenshots (data browser, c14 show view, version history, data curation)
   * [ ] TABLE: list of 'issues'
   * [ ] APPENDIX: table of datasets
@@ -371,11 +375,72 @@ The individual components of this work are described in more depth below but, br
 
 ## Data model {#sec-data-model}
 
-<!-- TODO: data model figure -->
+```{r fig-data-model}
+#| fig-cap: Simplified entity relationship diagram showing the XRONOS data model
+# Requires a running XRONOS dev database
+# See https://github.com/xronos-ch/xronos.rails for setup instructions
+xronos_dev_db <- DBI::dbConnect(
+  RPostgres::Postgres(),
+  user= "xronos",
+  password = "xronos",
+  dbname = "xronos_dev",
+  host = "localhost"
+)
+
+xronos_dm <- dm_from_con(xronos_dev_db, learn_keys = TRUE) # doesn't learn much
+
+xronos_dm_svg <- xronos_dm |>
+  dm_select_tbl(c("c14_labs", "c14s", "cals", "citations", "contexts",
+                  "materials", "references", "samples", "site_names",
+                  "site_types", "site_types_sites", "sites", "taxons", "typos", 
+                  "users", "versions", "wikidata_links")) |>
+  # Relations
+  dm_add_fk("c14s", "c14_lab_id", "c14_labs") |>
+  dm_add_fk("c14s", "sample_id", "samples") |>
+  dm_add_fk("cals", c("c14_age", "c14_error"), "c14s", c("bp", "std")) |>
+  dm_add_fk("citations", "reference_id", "references") |>
+  dm_add_fk("citations", "citing_id", "sites") |>
+  dm_add_fk("citations", "citing_id", "c14s") |>
+  dm_add_fk("citations", "citing_id", "typos") |>
+  dm_add_fk("contexts", "site_id", "sites") |>
+  dm_add_fk("samples", "context_id", "contexts") |>
+  dm_add_fk("samples", "material_id", "materials") |>
+  dm_add_fk("samples", "taxon_id", "taxons") |>
+  # dm_add_fk("site_names", "site_id", "sites") |> # autodetected
+  dm_add_fk("site_types_sites", "site_id", "sites") |>
+  dm_add_fk("site_types_sites", "site_type_id", "site_types") |>
+  dm_add_fk("typos", "sample_id", "samples") |>
+  dm_add_fk("wikidata_links", "wikidata_linkable_id", "sites") |>
+  dm_add_fk("wikidata_links", "wikidata_linkable_id", "c14s") |>
+  dm_add_fk("wikidata_links", "wikidata_linkable_id", "c14_labs") |>
+  dm_add_fk("wikidata_links", "wikidata_linkable_id", "materials") |>
+  dm_add_fk("wikidata_links", "wikidata_linkable_id", "taxons") |>
+  dm_add_fk("versions", "whodunnit", "users", "id") |>
+  dm_add_fk("versions", "item_id", "c14_labs") |>
+  dm_add_fk("versions", "item_id", "c14s") |>
+  dm_add_fk("versions", "item_id", "contexts") |>
+  dm_add_fk("versions", "item_id", "materials") |>
+  dm_add_fk("versions", "item_id", "references") |>
+  dm_add_fk("versions", "item_id", "samples") |>
+  dm_add_fk("versions", "item_id", "site_names") |>
+  dm_add_fk("versions", "item_id", "site_types") |>
+  dm_add_fk("versions", "item_id", "sites") |>
+  dm_add_fk("versions", "item_id", "taxons") |>
+  dm_add_fk("versions", "item_id", "typos") |>
+  # TODO: Self-references (primarily persuadable models), or too messy?
+  # dm_add_fk("contexts", "superseded_by", "contexts") |>
+  dm_draw("BT", view_type = "title_only", column_types = TRUE) |>
+  DiagrammeRsvg::export_svg()
+
+# Dear god why
+xronos_dm_svg_file <- tempfile("xronos_dm_", fileext = ".svg")
+write(xronos_dm_svg, xronos_dm_svg_file)
+ggdraw() + draw_image(xronos_dm_svg_file)
+```
 
 <!-- TODO: shorten -->
 
-At the base of the XRONOS data model are sets of spatiotemporal coordinates or, as we call them, *chrons*.
+At the base of the XRONOS data model (@fig-data-model) are sets of spatiotemporal coordinates or, as we call them, *chrons*.
 In an archaeological context, we conceptualise a chron as an assertion linking human activity with a particular point in space and time.
 Our data model currently encompasses three types of chron: radiocarbon dates, typological dates (e.g. 'Early Neolithic') and dendrochronological dates.
 However we anticipate that the concept will accommodate other types of absolute and relative dating techniques, as the scope of the database expands.
