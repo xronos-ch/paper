@@ -590,6 +590,8 @@ New data and corrections from p3k14c are incorporated into XRONOS as they are re
 
 We intend to continue development of XRONOS into the foreseeable future.
 Our immediate development goals include the incorporation of dendrochronology into the database, further refinement of our data curation pipelines, and the public release of the editing interfaces.
+<!--In parallel, the planned ERC Consolidator Grant Project ESTER, focusing on the estimation of population development in prehistory, will over the next five years play a crucial role in supporting the continuation and further development of the XRONOS database, ensuring its sustainability and fostering interdisciplinary collaboration.
+-->
 Looking beyond the near term, we have endeavoured to create a sustainable infrastructure that can be maintained by a wider scholarly commons – though we must acknowledge that this is a difficult problem, and one that is more organisational than technical.
 The source code for all the software components of the system are available online (at <https://github.com/xronos-ch>) under open licenses.
 The databases of the instance at <https://xronos.ch> are also archived with Zenodo (<!-- TODO: link -->).
