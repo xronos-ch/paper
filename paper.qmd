@@ -110,7 +110,7 @@ n_filter <- function(.data, ...) {
   * [x] FIGURE: map of number of dates in datasets
   * [ ] FIGURE: distribution of radiocarbon dates in c14bazAAR / IntChron / p3k14c / XRONOS
   * [x] FIGURE: data model
-  * [ ] FIGURE: GUI screenshots (data browser, c14 show view, version history, data curation)
+  * [x] FIGURE: GUI screenshots (data browser, c14 show view, version history, data curation)
   * [ ] TABLE: list of 'issues'
   * [ ] APPENDIX: table of datasets
 * [ ] Other TODOs
@@ -588,7 +588,7 @@ tribble(
 ```
 
 Once ingested, we apply a number of automated and semi-automated quality control processes to integrate new data into the existing database.
-Controlled vocabularies are used in a number of places in the data model (@FIG), and we use thesauri to automatically standardise these fields as much as possible.
+Controlled vocabularies are used in a number of places in the data model (@fig-data-model), and we use thesauri to automatically standardise these fields as much as possible.
 For example, the taxonomic description of samples is controlled using GBIF's backbone taxonomy [@GBIF2023], and we also use a thesaurus service provided by GBIF to automatically change variant or obsolete taxonomic names to the canonical version.
 If the system is not able to standardise a field using the available thesaurus, it is flagged for manual correction.
 A wide variety of other potential data quality issues (e.g. missing data on what country a site is in) are also flagged for human review by this system [@tbl-issues], which can often be semi-automated (e.g. suggesting close matches in the thesaurus or the country indicated by the record's coordinates).
@@ -601,13 +601,24 @@ As of writing there are therefore still many duplicate records in XRONOS that ne
 
 ## User interfaces
 
-<!-- TODO: figures? -->
-<!-- TODO: add in more concrete examples -->
+::: {#fig-ui layout-nrow=2}
+![Data browser](figures/xronos-ui-data-browser.png){#fig-ui-data-browser}
+
+![Site record](figures/xronos-ui-show.png){#fig-ui-show}
+
+![Record change log](figures/xronos-ui-papertrail.png){#fig-ui-papertrail}
+
+![Curation interface](figures/xronos-ui-curation.png){#fig-ui-curation}
+
+Views in the XRONOS web graphical user interface
+:::
 
 <!-- Public GUI -->
-The graphical user interface (GUI) to XRONOS, accessed through a web browser (e.g. at <https://xronos.ch>), uses REST resources and actions as the building blocks for various interfaces through which users can browse, search, retrieve, and analyse chronometric data.
+The graphical user interface (GUI) to XRONOS, accessed through a web browser (e.g. at <https://xronos.ch>), uses REST resources and actions as the building blocks for various interfaces through which users can browse, search, retrieve, and analyse chronometric data (@fig-ui).
 Each action on each resource is represented by a page, though not all of these are publicly accessible.
-Pages representing REST resources directly are supplemented by a number of synthetic interfaces, for example the 'data browser' (<https://xronos.ch/data>), which facilitates more complex filtering, or the search interface (<https://xronos.ch/search>).
+The most import of these are the 'index' views, which list and summaries all instances of a resource and support filtering and sorting;
+and 'show' views (e.g. @fig-ui-show for a site), which give a more comprehensive information on an individual record along with visualisations, links to related records, external linked open data resources, and a log of changes made to the data since it was imported into XRONOS (@fig-ui-papertrail).
+Pages representing REST resources directly are supplemented by a number of synthetic interfaces, for example the 'data browser' (<https://xronos.ch/data>, @fig-ui-data-browser), which facilitates more complex filtering, or the search interface (<https://xronos.ch/search>).
 The GUI also includes several resources which are not part of XRONOS' scientific data model, for example documentation pages, user profiles and news articles; these are currently not exposed in the API.
 
 <!-- Non-public GUI -->
