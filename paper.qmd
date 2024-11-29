@@ -341,7 +341,22 @@ Our overall aims in developing XRONOS is to bring this model, which RADON has op
 ## Design goals
 
 XRONOS is our answer to Kintigh's call [@Kintigh2006] for digital infrastructures that don't just provide access to chronological data but enables researchers to "archive, access, integrate, and mine disparate data sets".
-It parallels and draws inspiration from several similar initiatives within and outwith archaeology, such as <!-- TODO examples -->.
+It parallels and draws inspiration from several similar initiatives within and outwith archaeology, such as <!-- TODO examples
+Examples:
+https://link.springer.com/article/10.1007/s10816-018-9399-6
+https://link.springer.com/article/10.1007/s10816-010-9098-4
+https://www.cambridge.org/core/journals/latin-american-antiquity/article/public-database-of-archaeological-resources-on-easter-island-rapa-nui-using-google-earth/F30677F6FC99B4C2BC762BCC98FD0966
+https://www.cambridge.org/core/journals/advances-in-archaeological-practice/article/data-integration-in-the-service-of-synthetic-research/E297C57441239AB35053F987AA758EB9
+https://www.cambridge.org/core/journals/advances-in-archaeological-practice/article/tdar/FCE1056A210A452E5FE65560763D4CC7
+https://www.cambridge.org/core/journals/advances-in-archaeological-practice/article/googlebased-freeware-solution-for-archaeological-field-survey-and-onsite-artifact-analysis/7914F673D1E1CAD96E5270E794CDFFD9
+https://link.springer.com/article/10.1007/s10816-015-9272-9
+https://link.springer.com/article/10.1007/s10816-015-9251-1
+https://link.springer.com/article/10.1007/s10816-015-9240-4
+https://anatomypubs.onlinelibrary.wiley.com/doi/10.1002/ar.23130
+https://academic.oup.com/dsh/article/29/3/349/2938128
+https://www.sciencedirect.com/science/article/pii/S0167739X13000678?via%3Dihub
+
+-->.
 To improve upon existing global syntheses of radiocarbon dates (see @sec-global-compilations), we aimed to develop a living infrastructure that both continually collected data from diverse sources and presented a seamless single database to the user.
 The Global Biodiversity Information Facility [GBIF, <https://gbif.org>, @CanhosEtAl2004]—which provides a single, consistent interface to many sources of global biodiversity data—has served as an exemplar for us in this regard.
 
