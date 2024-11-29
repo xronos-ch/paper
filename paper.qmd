@@ -434,8 +434,8 @@ Together these two systems provide a transparent record where the data in XRONOS
 The XRONOS data model presents several opportunities to link to other resources as linked open data (LOD).
 We use controlled vocabularies in the form of the GBIF Backbone Taxonomy (for taxonomic descriptions of samples) via its API, and in future plan to extend this to for example site types (using the Getty and/or DAI<!-- TODO: check & cite -->).
 Standardising field using these vocabularies to automatically then link the two entities.
-Beyond this, there is also a concordance between XRONOS entities and other specialised data infrastructures in archaeology, such as Perio.do (@RabinowitzEtAl2016, mapping to typological chrons) and gazetters like Pleiades [@Pleiades] or Vici (@Voorburg2012, mapping to site names).
-Moving beyond archaeology, Wikidata (<https://wikidata.org>) already includes many of the concepts represented in the XRONOS model (e.g. archaeological sites, Q<!-- TODO -->).
+Beyond this, there is also a concordance between XRONOS entities and other specialised data infrastructures in archaeology, such as Perio.do [@RabinowitzEtAl2016, mapping to typological chrons] and gazetters like Pleiades [@Pleiades] or Vici [@Voorburg2012, mapping to site names].
+Moving beyond archaeology, Wikidata (<https://wikidata.org>) already includes many of the concepts represented in the XRONOS model (e.g. archaeological sites, Q<!-- TODO Eg Q39671? MH.-->).
 Linking to Wikidata is especially useful because it dissimenates—and thereby preserves—the data compiled in XRONOS beyond the narrow field of archaeology.
 It also allows us to enrich the database with contextual information that otherwise be beyond our scope and resources, for example embedding multilingual descriptions of sites from Wikipedia articles on site records where the site has been linked to a Wikidata item.
 
