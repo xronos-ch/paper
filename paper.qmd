@@ -388,7 +388,7 @@ The major advantage of this approach is that the data is made internally consist
 The downside is that without the continuous link to the source databases present in the c14bazAAR and IntChron, it can only be kept up to date manually with periodic re-releases. 
 An accompanying package [@BirdEtAl2024] provides direct access to the p3k14c dataset in R.
 
-As of writing, c14bazAAR has `r format(nrow(filter(c14_global, source == "c14bazAAR")), big.mark = ",")` radiocarbon dates with unique laboratory identifiers (excluding those sourced from p3k14c and XRONOS), IntChron has `r format(nrow(filter(c14_global, source == "IntChron")), big.mark = ",")` (excluding those from non-archaeological contexts), and p3k14c has `r format(nrow(filter(c14_global, source == "c14bazAAR")), big.mark = ",")`.
+As of writing, c14bazAAR has `r format(nrow(filter(c14_global, source == "c14bazAAR")), big.mark = ",")` radiocarbon dates with unique laboratory identifiers (excluding those sourced from p3k14c and XRONOS), IntChron has `r format(nrow(filter(c14_global, source == "IntChron")), big.mark = ",")` (excluding those from non-archaeological contexts), and p3k14c has `r format(nrow(filter(c14_global, source == "p3k14c")), big.mark = ",")`.
 The geographic distribution of dates from each is similar (@fig-c14-global), reflecting the large degree in overlap between the sources of each compilation.
 IntChron, which in practice is currently only used to publish dates associated with the Oxford Radiocarbon Lab, has dates from more diverse contexts, but less overall.
 
