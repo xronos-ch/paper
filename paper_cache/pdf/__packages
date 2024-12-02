@@ -2,6 +2,7 @@ countrycode
 cowplot
 dplyr
 dm
+english
 giscoR
 ggplot2
 glue
@@ -14,10 +15,6 @@ purrr
 readr
 RPostgres
 sf
-abind
-stars
-tidyr
-webshot2
 spatstat.data
 spatstat.geom
 spatstat.random
@@ -27,3 +24,8 @@ rpart
 spatstat.model
 spatstat.linnet
 spatstat
+abind
+stars
+stringr
+tidyr
+webshot2
