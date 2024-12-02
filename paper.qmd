@@ -49,8 +49,6 @@ keywords:
   - dendrochronology
   - typological dating
 published: "Manuscript for submission to the *Journal of Computer Applications in Archaeology*"
-execute:
-  echo: false
 number-sections: true
 bibliography: references.bib
 format:
@@ -69,6 +67,9 @@ format:
 #    page-layout: article
 #    toc: true
 #    embed-resources: true
+execute:
+  echo: false
+  cache: true
 ---
 
 ```{r setup}
@@ -81,12 +82,16 @@ library("giscoR")
 library("ggplot2")
 library("glue")
 library("gt", warn.conflicts = FALSE)
+library("here")
 library("khroma")
 library("magick")
 library("patchwork", warn.conflicts = FALSE)
+library("purrr")
 library("readr")
 library("RPostgres")
 library("sf")
+library("spatstat")
+library("stars")
 library("tidyr")
 library("webshot2")
 
@@ -256,7 +261,7 @@ Most radiocarbon datasets we reviewed were compiled with a specific goal in mind
 Laboratory databases solve the problem of currency, but tend to have more arbitary coverage, since the inclusion of data is determined by who submits dates to that lab, not any form of principled curation.
 There are also comparatively few of them – most active labs no longer directly publish dates that they produce (if they ever did).
 
-In addition, the temporal and geographic coverage of these resources is uneven [@AlcantaraPedrozainpress], systematically biased [@ClistEtAl2023], and duplicative of each other.
+In addition, the temporal and geographic coverage of these resources is uneven [@ChaputGajewski2016; @AlcantaraPedrozainpress], systematically biased [@ClistEtAl2023], and duplicative of each other.
 <!-- TODO: example, X databases for Europe, Y for the rest of the world? -->
 By our count, <!-- TODO: X --> of the databases are not 'open' according to the Open Knowledge Foundation's definition of data openness ["Open data and content can be freely used, modified, and shared by anyone for any purpose", @OpenKnowledgeFoundation], which both limits the access to and reuse potential of these datasets.
 <!-- TODO: X --> are not currently available in readily machine-readable formats (e.g. plain text or database files rather than PDFs or hypertext).
@@ -269,14 +274,118 @@ These issues are by no means impossible to overcome, but adds a significant amou
 
 ## Global radiocarbon compilations {#sec-global-compilations}
 
-<!-- TODO: Include CalPal?? -->
+```{r data-fig-c14-global, include=FALSE}
+c14_global <- read_tsv(here("data", "c14_global.tsv"))
+c14_global_sum <- read_tsv(here("data", "c14_global_sum.tsv"))
+
+ppp_window <- st_transform(st_union(gisco_get_countries()), "+proj=moll")
+
+c14_global_density <- c14_global |>
+  drop_na(longitude, latitude) |>
+  nest(.by = source) |>
+  mutate(
+    sf = map(data, st_as_sf, coords = c("longitude", "latitude"), crs = 4326),
+    sf = map(sf, st_transform, crs = "+proj=moll"),
+    sf = map(sf, st_filter, ppp_window), # no dates in the sea, please
+    n_sf = map_int(sf, nrow),
+    ppp = map(sf, as.ppp, W = as.owin(ppp_window)),
+    density = map(ppp, density, sigma = 50000, adjust = 10, eps = 50000),
+    density = map(density, st_as_stars)
+  )
+```
+
+```{r fig-c14-global, message=FALSE, warning=FALSE}
+#| fig-cap: Geographic and temporal (sum calibration) of georeferenced dates in XRONOS and other global radiocarbon compilations
+#| fig-height: 6
+plot_c14_density <- function(density, title, coastline = coast) {
+  ggplot() +
+    geom_stars(
+      aes(fill = ecdf(v)(v)), # transform density to quantiles like plot.stars()
+      data = density
+    ) +
+    geom_sf(data = coastline, fill = NA) +
+    scale_fill_stepsn(
+      name = "Density",
+      n.breaks = 11,
+      colours = colour("turku", reverse = TRUE)(11),
+      labels = c("Low", rep("", 7), "High"),
+      na.value = NA,
+      guide = guide_none()
+    ) +
+    labs(title = title) +
+    coord_sf(crs = "+proj=moll") +
+    theme_minimal_grid() +
+    theme(
+      plot.title = element_text(hjust = 0.5),
+      plot.margin = unit(c(11, 5.5, 0, 5.5), "pt")
+    )
+}
+
+fig_density <- map2(c14_global_density$density, c14_global_density$source, 
+                    plot_c14_density)
+names(fig_density) <- c14_global_density$source
+
+# From https://stackoverflow.com/questions/11053899/how-to-get-a-reversed-log10-scale-in-ggplot2
+transform_reverse_log <- function(base = exp(1)) {
+  trans <- function(x) -log(x, base)
+  inv <- function(x) base^(-x)
+  scales::trans_new(paste0("reverselog-", format(base)), trans, inv, 
+                    scales::log_breaks(base = base), 
+                    domain = c(1e-100, Inf))
+}
+
+plot_c14_sum <- function(data, n) {
+  ggplot(data, aes(age, pdens)) +
+    geom_area(fill = "#3C3B39") + # 'XRONOS grey'
+    scale_x_continuous(name = NULL, breaks = c(50000, 5000, 500),
+                       labels = c("50000", "5000", "500 BP"),
+                       transform = transform_reverse_log()) +
+    scale_y_continuous(name = NULL, labels = NULL) +
+    labs(caption = paste0("N=", n)) +
+    theme_minimal_vgrid() + 
+    theme(
+      axis.line.y = element_blank(),
+      axis.ticks.y = element_blank(),
+      plot.margin = unit(c(0, 5.5, 11, 5.5), "pt")
+    )
+}
+
+fig_sum <- c14_global_sum |>
+  nest(.by = source) |>
+  pull(data) |>
+  map2(c14_global |> nest(.by = source) |> pull(data) |> map(nrow), plot_c14_sum)
+names(fig_sum) <- unique(c14_global_sum$source)
+
+# Lay out with patchwork
+fig_density[["c14bazAAR"]] + fig_density[["IntChron"]] +
+  fig_sum[["c14bazAAR"]] + fig_sum[["IntChron"]] +
+  fig_density[["p3k14c"]] + fig_density[["XRONOS"]] +
+  fig_sum[["p3k14c"]] + fig_sum[["XRONOS"]] +
+  plot_layout(ncol = 2, heights = rep(c(5, 1), 2))
+
+# Alt. plot by country
+# c14_global |>
+#   count(country, source) |>
+#   left_join(gisco_get_countries(), by = c("country" = "CNTR_ID")) |>
+#   mutate(n = replace_na(n, 0)) |>
+#   st_as_sf() |>
+#   ggplot() +
+#   facet_wrap(vars(source)) +
+#   geom_sf(data = gisco_get_countries(), fill = "white", colour = NA) +
+#   geom_sf(aes(fill = n), colour = NA) +
+#   geom_sf(data = coast, fill = NA) +
+#   scale_fill_turku(reverse = TRUE, labels = scales::comma) +
+#   labs(fill = "Dates") +
+#   coord_sf(crs = "+proj=moll") +
+#   theme_minimal_grid()
+```
 
 The profusion of radiocarbon compilations over the last decade has naturally prompted many to think globally.
 Three existing initiatives are particularly similar to XRONOS in their aims: c14bazAAR, IntChron, and p3k14c.
 
 The first available synthetic radiocarbon database was c14bazAAR [@SchmidEtAl2019], an R package that provides an index of openly published radiocarbon databases and a common interface for retrieving them and performing basic data cleaning.
 Because c14bazAAR downloads data from its original source repositories, rather than mirroring it, it only includes resources that have been published in a fully open and machine-accessible format.
-Despite this limitation, it has global coverage and is still the largest collection of radiocarbon dates available (@FIG).
+Despite this limitation, it has global coverage and a large number of dates (@fig-c14-global), and was therefore our starting point for data collection for XRONOS.
 
 Another indexical approach is the IntChron project [@BronkRamseyEtAl2019], which exposes data from multiple sources and exposes them with a common JSON-based web interface.
 The IntChron specification is open, meaning that radiocarbon labs or compilation projects can implement it independently and thereby allow end users to access their data through a common interface (though to our knowledge it has so far only been adopted by databases associated with the Oxford Radiocarbon Lab).
@@ -287,9 +396,9 @@ The major advantage of this approach is that the data is made internally consist
 The downside is that without the continuous link to the source databases present in the c14bazAAR and IntChron, it can only be kept up to date manually with periodic re-releases. 
 An accompanying package [@BirdEtAl2024] provides direct access to the p3k14c dataset in R.
 
-As of writing, c14bazAAR includes <!-- TODO: N --> radiocarbon dates with unique laboratory identifiers, IntChron <!-- TODO: N --> (excluding those from non-archaeological contexts), and p3k14c <!-- TODO: N -->.
-The geographic distribution of dates from each is similar (@FIG), reflecting the large degree in overlap between the sources of c14bazAAR and p3k14c in particular.
-IntChron, which in practice is currently only used to publish dates associated with the Oxford Radiocarbon Lab, has dates from more diverse contexts, but is much smaller.
+As of writing, c14bazAAR has `r format(nrow(filter(c14_global, source == "c14bazAAR")), big.mark = ",")` radiocarbon dates with unique laboratory identifiers (excluding those sourced from p3k14c and XRONOS), IntChron has `r format(nrow(filter(c14_global, source == "IntChron")), big.mark = ",")` (excluding those from non-archaeological contexts), and p3k14c has `r format(nrow(filter(c14_global, source == "c14bazAAR")), big.mark = ",")`.
+The geographic distribution of dates from each is similar (@fig-c14-global), reflecting the large degree in overlap between the sources of each compilation.
+IntChron, which in practice is currently only used to publish dates associated with the Oxford Radiocarbon Lab, has dates from more diverse contexts, but less overall.
 
 ## Beyond radiocarbon
 
@@ -432,7 +541,7 @@ xronos_dm_svg <- xronos_dm |>
   dm_draw("BT", view_type = "title_only", column_types = TRUE) |>
   DiagrammeRsvg::export_svg()
 
-# Dear god why
+# Dear god why is this necessary
 xronos_dm_svg_file <- tempfile("xronos_dm_", fileext = ".svg")
 write(xronos_dm_svg, xronos_dm_svg_file)
 ggdraw() + draw_image(xronos_dm_svg_file)
