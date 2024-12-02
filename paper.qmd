@@ -103,21 +103,11 @@ n_filter <- function(.data, ...) {
 
 <!--
 * [x] First draft
-* [ ] Complete references:
-  * [x] Introduction
-  * [ ] State of the art
-  * [ ] Concept
-  * [ ] Implementation
-  * [ ] Evaluation
-  * [ ] Appendix table
-* [ ] Figures and tables
-  * [x] FIGURE: graph of number of datasets through time
-  * [x] FIGURE: map of number of dates in datasets
-  * [ ] FIGURE: distribution of radiocarbon dates in c14bazAAR / IntChron / p3k14c / XRONOS
-  * [x] FIGURE: data model
-  * [x] FIGURE: GUI screenshots (data browser, c14 show view, version history, data curation)
-  * [ ] TABLE: list of 'issues'
-  * [ ] APPENDIX: table of datasets
+* [x] References
+* [x] Figures and tables
+* [ ] SM1 (data/c14_datasets.tsv)
+  * [ ] References
+  * [ ] Nice PDF version
 * [ ] Other TODOs
 * [ ] Copyedit:
   * [ ] Introduction
@@ -788,6 +778,7 @@ But aside from these extreme scenarios, the long-term sustainability of XRONOS i
 The XRONOS project was carried under the direction of Albert Hafner. 
 Individual contributors to the XRONOS database to date include Chiara Huwiler, Rivana Moser, Tomasz Chmielewski, and Stephanie Döppler. 
 A complete and up-to-date list of acknowledgements for the project can be found at <https://xronos.ch/about/acknowledgements>.
+<!-- TODO: peer reviewers -->
 
 # Funding statement
 
