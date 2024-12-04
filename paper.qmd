@@ -597,7 +597,7 @@ We also plan to implement additional view formats to facilitate this, such as In
 
 # Implementation
 
-Following a short pilot project in 2019, the first phase of development of XRONOS was completed in 2021–2024, supported by a project grant from the Swiss National Science Foundation.
+Following a short pilot project in 2019, the first phase of development of XRONOS was completed in 2021–2024.
 The web interface (<https://xronos.ch>) has been publicly accessible since July 2021.
 Though we envisage XRONOS as a continuously-developing open source project and 'living database', the following offers a snapshot of progress at the end of our first grant-funded implementation phase.
 We do not aim to be comprehensive, but rather to describe some key elements of XRONOS' current implementation that illustrate how our concept has been realised in practice.
@@ -770,4 +770,4 @@ A complete and up-to-date list of acknowledgements for the project can be found 
 
 # Funding statement
 
-This work was funded by the Swiss National Science Foundation ([SNSF Project #198152](https://data.snf.ch/grants/grant/198153)) and the University of Bern (Initiator Grant, Caroline Heitz, Project 'Time and Temporality').
+This work was funded by the Swiss National Science Foundation ([SNSF Project #198152](https://data.snf.ch/grants/grant/198153)) and the University of Bern (UniBE Initiator Grant 2019, Caroline Heitz, Project 'Time and Temporality').
