@@ -40,7 +40,7 @@ affiliations:
     country: Germany
     url: https://www.shh.mpg.de/
 abstract: |
-  XRONOS (<https://xronos.ch>) is an open data infrastructure for the backbone of the archaeological record – chronology. It aims provides open access to published radiocarbon dates and other chronometric data from any period, anywhere in the world. By collating a large number of existing regional and global compilations of dates, XRONOS offers the most comprehensive radiocarbon database yet published, with over 350,000 radiocarbon and 75,000 site records. It also provides a foundation for expanding the systematic collection of chronometric information beyond radiocarbon, with support for typological and dendrochronological dates and a generalisable data model that can be adapted to other methods of absolute dating. Automated and semi-automated quality control processes ensure that data from diverse sources is continuously integrated and standardised, making it significantly easier to filter data of interest and reducing the need for manual data cleaning by end users. In this paper we describe the concept and implementation of XRONOS in relation to the state of the art in chronometric data-sharing, and evaluate its potential as a general-purpose open repository and curation platform for archaeological chronology.
+  XRONOS (<https://xronos.ch>) is an open data infrastructure for the backbone of the archaeological record – chronology. It provides open access to published radiocarbon dates and other chronometric data from any period, anywhere in the world. By collating a large number of existing regional and global compilations of dates, XRONOS offers the most comprehensive radiocarbon database yet published, with over 350,000 radiocarbon and 75,000 site records. It also provides a foundation for expanding the systematic collection of chronometric information beyond radiocarbon, with support for typological and dendrochronological dates and a generalisable data model that can be adapted to other methods of absolute dating. Automated and semi-automated quality control processes ensure that data from diverse sources is continuously integrated and standardised, making it easier to find information of interest and reducing the need for manual data cleaning by end users. In this paper we describe the concept and implementation of XRONOS in relation to the state of the art in chronometric data-sharing, and evaluate its potential as a general-purpose open repository and curation platform for archaeological chronology.
 keywords: 
   - open data
   - chronology
@@ -104,9 +104,6 @@ n_filter <- function(.data, ...) {
 ```
 
 <!--
-* [x] First draft
-* [x] References
-* [x] Figures and tables
 * [ ] SM1 (data/c14_datasets.tsv)
   * [ ] References
   * [ ] Nice PDF version
@@ -122,12 +119,11 @@ n_filter <- function(.data, ...) {
 # Introduction
 
 Chronology is the backbone of the archaeological record.
-As a necessary prerequisite to understanding the context of any past event or process [@Lucas2004], it is has unsurprisingly been at the forefront of methodological development in archaeology for as long as the discipline has existed: from putting finds and events in sequence [@Rowley-Conwy2007] to using scientific methods to place them on an absolute timescale [@Libby1955] and increasingly sophisticated statistical methods to refine them [@BronkRamsey2009].
+As a necessary prerequisite to understanding the context of any past event or process [@Lucas2004], it is has unsurprisingly been at the forefront of methodological development in archaeology for as long as the discipline has existed: from putting finds and events in sequence [@Thomsen1836; @Worsaae1843; @Petrie1899; @Ford1962; @Harris1979] to an increasingly wide array of scientific methods that place them on an absolute timescale [@Douglass1929; @DanielsEtAl1953; @Libby1955; @EverndenEtAl1965; @BadaHelfman1975] and an increasingly sophisticated set of statistical tools to build them into chronologies [@Suess1967; @BuckEtAl1991; @Mischka2004; @LevyEtAl2021; @Crema2024].
 If archaeology is to be an open science [@Lake2012], it is therefore critical that effective open access to chronological information be placed front and centre.
 
 Over the last two decades, archaeologists have answered this call by publishing an increasing number of compilations of dates from archaeological contexts as open data.
-These efforts have facilitated re-evaluations of chronologies themselves [e.g. @HighamEtAl2014; @LoftusEtAl2019; @PratesEtAl2020; @KatsianisEtAl2020] but also the development of novel ways of using chronological data [@MoodyEtAl2021; @Crema2022; @RirisEtAl2024].
-<!-- TODO: Would welcome more citations here -->
+These efforts have facilitated re-evaluations of chronologies themselves [e.g. @HighamEtAl2014; @LoftusEtAl2019; @PratesEtAl2020; @KatsianisEtAl2020] but also the development of novel ways of using chronological data [e.g. @Grove2011; @Crema2022; @CremaEtAl2024; @RirisEtAl2024; @MaromWolkowski2024].
 The focus has been overwhelmingly on radiocarbon dating and most compilations focus on a single region and/or period.
 The profusion of open radiocarbon data in particular has prompted several initiatives towards a global synthesis [e.g. @SchmidEtAl2019; @BronkRamseyEtAl2019; @BirdEtAl2022].
 
@@ -155,8 +151,8 @@ However, as the number of labs and volume of radiocarbon dates being produced gr
 Additionally, because the date lists were sourced from radiocarbon laboratories directly—not those who collected the sample—they typically included only very limited contextual information.
 On the eve of the AMS revolution there was an effort to create a computerised 'International Radiocarbon Database' [@Kra1988]—already by 1989 described as a "much needed, long overdue enterprise" [@Kra1989]—but it never came to fruition.
 
-Thus, even though radiocarbon data comes from a relatively limited number of sources [one of the 172 active labs, @RadiocarbonLabList] and has relatively standardised reporting conventions [@Millard2014; @Bayliss2015], in practice the only way to produce aggregated datasets in recent decades has been to manually search through relevant literature for dates reported by the submitter of the sample.
-This already laborious process is further hampered by a significant inconsistency in how much authors adhere to measurement reporting conventions, a lack of conventions on the reporting of *contextual* information, and weak or nonexistent disciplinary norms regarding the responsibility to publish results openly in a timely fashion.
+Thus, even though radiocarbon data comes from a relatively limited number of sources [some 172 active labs, @RadiocarbonLabList] and has relatively standardised reporting conventions [@Millard2014; @Bayliss2015], in practice the only way to produce aggregated datasets in recent decades has been to manually search through relevant literature for dates reported by the submitter of the sample.
+This already laborious process is further hampered by a significant inconsistency in how much authors adhere to measurement reporting conventions, a lack of conventions on the reporting of *contextual* information, weak or nonexistent disciplinary norms regarding the responsibility to publish results openly in a timely fashion, and a range of other issues affecting data reuse [@MoodyEtAl2021].
 
 ```{r data-c14-datasets}
 c14_datasets <- read_tsv("data/c14_datasets.tsv", show_col_types = FALSE)
@@ -447,7 +443,7 @@ Our overall aims in developing XRONOS is to bring this model, which RADON has op
 ## Design goals
 
 XRONOS is our answer to Kintigh's call [@Kintigh2006] for digital infrastructures that don't just provide access to chronological data but enables researchers to "archive, access, integrate, and mine disparate data sets".
-It complements several similar open data infrastructures within and outwith archaeology, such as SEAD for environmental archaeology [@Buckland2014], IMPACT for mummified human remains [@NelsonWade2015], Neotoma for palaeoecological data [@WilliamsEtAl2018], IsoArcH for stable isotope data [@PlompEtAl2022], and the 'Big Interdisciplinary Archaeological Database' (BIAD), an ambitious new initiative to combine many of these individual domains, including chronology [@ReiterEtAl2024].
+It complements several similar open data infrastructures within and outwith archaeology, such as the Strategic Environmental Archaeology Database [SEAD, @Buckland2014], IMPACT for mummified human remains [@NelsonWade2015], Neotoma for palaeoecological data [@WilliamsEtAl2018], IsoArcH for stable isotope data [@PlompEtAl2022], the International Soil Radiocarbon Database [ISRaD, @LawrenceEtAl2020], and the 'Big Interdisciplinary Archaeological Database' (BIAD), an ambitious new initiative to combine many of these individual domains, including chronology [@ReiterEtAl2024].
 To improve upon existing global syntheses of radiocarbon dates (see @sec-global-compilations), we aimed to develop a living infrastructure that both continually collected data from diverse sources and presented a seamless single database to the user.
 The Global Biodiversity Information Facility [GBIF, <https://gbif.org>, @CanhosEtAl2004]—which provides a single, consistent interface to many sources of global biodiversity data—has served as an exemplar for us in this regard.
 
