@@ -61,7 +61,7 @@ format:
     cite-method: citeproc
     journal:
       name: Journal of Computer Applications in Archaeology
-      formatting: review
+      formatting: doubleblind
   # Pretty but broken:
   # https://github.com/andrewheiss/hikmah-academic-quarto/issues/7
   # hikmah-pdf:
