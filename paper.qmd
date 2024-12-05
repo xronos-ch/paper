@@ -688,7 +688,11 @@ tribble(
   group_by(entity) |>
   gt() |>
   cols_label(issue_code = "Issue", n = "N", issue_description = "Description") |>
-  cols_width(everything() ~ pct(33)) |> # TODO: fix...
+  cols_width(
+    issue_code ~ pct(30),
+    n ~ pct(20),
+    issue_description ~ pct(50)
+  ) |>
   tab_options(
     table.font.size = 13
   )

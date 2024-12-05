@@ -1138,37 +1138,36 @@ bibliographic reference to the original resource is attached to ensure
 that the source is clearly attributed even if the record is merged with
 another one.
 
-\begingroup
-\fontsize{9.8pt}{11.7pt}\selectfont
-
-\begin{longtable}{>{\raggedright\arraybackslash}p{\dimexpr 0.33\linewidth -2\tabcolsep-1.5\arrayrulewidth}>{\raggedleft\arraybackslash}p{\dimexpr 0.33\linewidth -2\tabcolsep-1.5\arrayrulewidth}>{\raggedright\arraybackslash}p{\dimexpr 0.33\linewidth -2\tabcolsep-1.5\arrayrulewidth}}
+\begin{table}
 
 \caption{\label{tbl-issues}Automatically-recognised data quality issues
 currently implemented in XRONOS}
 
-\tabularnewline
+\centering{
 
+\fontsize{9.8pt}{11.7pt}\selectfont
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}>{\raggedright\arraybackslash}p{\dimexpr 0.30\linewidth -2\tabcolsep-1.5\arrayrulewidth}>{\raggedleft\arraybackslash}p{\dimexpr 0.20\linewidth -2\tabcolsep-1.5\arrayrulewidth}>{\raggedright\arraybackslash}p{\dimexpr 0.50\linewidth -2\tabcolsep-1.5\arrayrulewidth}}
 \toprule
 Issue & N & Description \\ 
 \midrule\addlinespace[2.5pt]
-\multicolumn{3}{>{\raggedright\arraybackslash}m{1.32\linewidth}}{Sites} \\[2.5pt] 
+\multicolumn{3}{l}{Sites} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
 MISSING\_COORDINATES & 4452 & Missing geographic coordinates \\ 
 INVALID\_COORDINATES & 0 & Geographic coordinates fall outside the earth's ellipsoid \\ 
 MISSING\_COUNTRY\_CODE & 1221 & Missing data on what country the site is in \\ 
 \midrule\addlinespace[2.5pt]
-\multicolumn{3}{>{\raggedright\arraybackslash}m{1.32\linewidth}}{Samples} \\[2.5pt] 
+\multicolumn{3}{l}{Samples} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
 MISSING\_MATERIAL & 138177 & Missing data on the sample material \\ 
 MISSING\_TAXON & 138182 & Missing data on the sample taxon \\ 
 MISSING\_CRS & 0 & Sample has coordinates but the coordinate reference system is not given \\ 
 \midrule\addlinespace[2.5pt]
-\multicolumn{3}{>{\raggedright\arraybackslash}m{1.32\linewidth}}{Taxons} \\[2.5pt] 
+\multicolumn{3}{l}{Taxons} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
 UNKNOWN\_TAXON & 9260 & Sample taxon has not been matched to the GBIF Backbone Taxonomy \\ 
 LONG\_TAXON & 509 & Description of the sample taxon is implausibly long \\ 
 \midrule\addlinespace[2.5pt]
-\multicolumn{3}{>{\raggedright\arraybackslash}m{1.32\linewidth}}{Radiocarbon dates} \\[2.5pt] 
+\multicolumn{3}{l}{Radiocarbon dates} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
 MISSING\_C14\_AGE & 447 & Missing radiocarbon age \\ 
 VERY\_OLD\_C14 & 76 & Radiocarbon age older than the effective range of the method (50 ka) \\ 
@@ -1180,15 +1179,16 @@ MISSING\_C14\_LAB\_ID & 1233 & Missing laboratory identifier \\
 INVALID\_LAB\_ID & 16053 & Laboratory identifier does not match the standard format (e.g. 'Abc-1234') \\ 
 MISSING\_C14\_LAB & 350190 & Missing data on the radiocarbon laboratory \\ 
 \midrule\addlinespace[2.5pt]
-\multicolumn{3}{>{\raggedright\arraybackslash}m{1.32\linewidth}}{Bibliographic references} \\[2.5pt] 
+\multicolumn{3}{l}{Bibliographic references} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
 MIXED\_REFERENCE & 21933 & Bibliographic reference appears to combine multiple publications \\ 
 MISSING\_BIBTEX & 42109 & Bibliographic reference without structured data in BibTeX format \\ 
 \bottomrule
+\end{tabular*}
 
-\end{longtable}
+}
 
-\endgroup
+\end{table}%
 
 Once ingested, we apply a number of automated and semi-automated quality
 control processes to integrate new data into the existing database.
