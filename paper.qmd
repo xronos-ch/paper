@@ -82,6 +82,9 @@ format:
 execute:
   echo: false
   cache: true
+knitr:
+  opts_chunk:
+    fig.path: figures/
 ---
 
 ```{r setup, cache=FALSE}

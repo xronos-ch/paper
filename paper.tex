@@ -371,16 +371,15 @@ regarding the responsibility to publish results openly in a timely
 fashion, and a range of other issues affecting data reuse (Moody et al.,
 2021).
 
-\begingroup
-\fontsize{9.8pt}{11.7pt}\selectfont
-
-\begin{longtable}{>{\raggedright\arraybackslash}p{\dimexpr 0.40\linewidth -2\tabcolsep-1.5\arrayrulewidth}>{\raggedleft\arraybackslash}p{\dimexpr 0.15\linewidth -2\tabcolsep-1.5\arrayrulewidth}>{\raggedleft\arraybackslash}p{\dimexpr 0.15\linewidth -2\tabcolsep-1.5\arrayrulewidth}>{\raggedright\arraybackslash}p{\dimexpr 0.30\linewidth -2\tabcolsep-1.5\arrayrulewidth}}
+\begin{table}
 
 \caption{\label{tbl-c14-datasets}Summary of published compilations of
 radiocarbon dates. For full data, see supplementary materials.}
 
-\tabularnewline
+\centering{
 
+\fontsize{9.8pt}{11.7pt}\selectfont
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}>{\raggedright\arraybackslash}p{\dimexpr 0.40\linewidth -2\tabcolsep-1.5\arrayrulewidth}>{\raggedleft\arraybackslash}p{\dimexpr 0.15\linewidth -2\tabcolsep-1.5\arrayrulewidth}>{\raggedleft\arraybackslash}p{\dimexpr 0.15\linewidth -2\tabcolsep-1.5\arrayrulewidth}>{\raggedright\arraybackslash}p{\dimexpr 0.30\linewidth -2\tabcolsep-1.5\arrayrulewidth}}
 \toprule
 Database & Published & Dates & References \\ 
 \midrule\addlinespace[2.5pt]
@@ -446,10 +445,11 @@ Database & Published & Dates & References \\
 \href{http://c14.kikirpa.be/}{Royal Institute for Cultural Heritage web based Radiocarbon database} & — & 7,300 & @VanStrydonckDeRoock \\ 
 \href{https://telearchaeology.org///c14/}{La base de dades radiocarbòniques de Catalunya} & — & — & @BarceloAlvarezEtAl2013 \\ 
 \bottomrule
+\end{tabular*}
 
-\end{longtable}
+}
 
-\endgroup
+\end{table}%
 
 Despite these inefficiencies, there have been a profusion of published
 radiocarbon compilations since the decline of the date list. Our review
@@ -466,7 +466,7 @@ lists' in printed periodicals and gazetteers were excluded.
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-c14-datasets-time-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{figures/fig-c14-datasets-time-1.pdf}}
 
 }
 
@@ -509,7 +509,7 @@ archived in long-term repositories.
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-c14-datasets-map-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{figures/fig-c14-datasets-map-1.pdf}}
 
 }
 
@@ -596,7 +596,7 @@ compilations}\label{sec-global-compilations}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-c14-global-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{figures/fig-c14-global-1.pdf}}
 
 }
 
@@ -880,7 +880,7 @@ dataset.
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{paper_files/figure-pdf/fig-data-model-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{figures/fig-data-model-1.pdf}}
 
 }
 
