@@ -801,7 +801,7 @@ This work was funded by the Swiss National Science Foundation ([SNSF Project #19
 
 # Data Accessibility Statement
 
-The data and R code used to produce our analysis of the state of the art in radiocarbonc compilation, including all the figures presented here, can be accessed via Zenodo at (<!-- TODO: add link -->*link omitted for blind review, included in submission materials*)
+The data and R code used to produce our analysis of the state of the art in radiocarbon compilation, including all the figures presented here, can be accessed via Zenodo at <https://doi.org/10.5281/zenodo.14282598>.
 
 The database and software described in this paper is open source and can be accessed at <https://github.com/xronos-ch>.
 
