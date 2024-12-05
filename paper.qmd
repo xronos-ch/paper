@@ -4,7 +4,7 @@ short-title: XRONOS
 author:
   - name: Joe Roe
     orcid: 0000-0002-1011-1244
-    email: joseph.a.roe@unibe.ch
+    email: joeroe@hey.com
     corresponding: true
     affiliation:
     - ref: iaw
@@ -59,7 +59,7 @@ format:
     cite-method: citeproc
     journal:
       name: Journal of Computer Applications in Archaeology
-      formatting: doubleblind
+      formatting: review
   # Pretty but broken:
   # https://github.com/andrewheiss/hikmah-academic-quarto/issues/7
   # hikmah-pdf:
@@ -774,7 +774,7 @@ Our immediate development goals include the incorporation of dendrochronology in
 
 Looking beyond the near term, we have endeavoured to create a sustainable infrastructure that can be maintained by a wider scholarly commons – though we must acknowledge that this is a difficult problem, and one that is as much organisational than technical.
 The source code for all the software components of the system are available online (at <https://github.com/xronos-ch>) under open licenses.
-The databases of the instance at <https://xronos.ch> are also archived with Zenodo (<link omitted for blind review><!-- TODO: link -->).
+The databases of the instance at <https://xronos.ch> are also archived with Zenodo (*link omitted for blind review*<!-- TODO: link -->).
 With these two resources we reduce XRONOS' 'bus factor'; if we are not able to continue operating XRONOS, somebody else can fully recreate it.
 Equally importantly, we enable the 'right to fork' should others wish to take the software and/or database in another direction.
 But aside from these extreme scenarios, the long-term sustainability of XRONOS is contingent on the existence of a community of scholars that use and contribute back to it.
@@ -789,3 +789,9 @@ A complete and up-to-date list of acknowledgements for the project can be found 
 # Funding statement
 
 This work was funded by the Swiss National Science Foundation ([SNSF Project #198152](https://data.snf.ch/grants/grant/198153)) and the University of Bern (UniBE Initiator Grant 2019, Caroline Heitz, Project 'Time and Temporality').
+
+# Data accessibility statement
+
+The data and R code used to produce our analysis of the state of the art in radiocarbonc compilation, including all the figures presented here, can be accessed via Zenodo at (<!-- TODO: add link -->*link omitted for blind review, included in submission materials*)
+
+The database and software described in this paper is open source and can be accessed at <https://github.com/xronos-ch>.
