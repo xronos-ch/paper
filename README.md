@@ -1,7 +1,7 @@
 This is the manuscript of our paper describing [XRONOS](https://xronos.ch):
 
 > Roe, J., Schmid, C., Ebrahimiabareghi, S., Heitz, C. & Hinz, M. in prep. 
->   XRONOS: an open data infrastructure for archaeological chronology.
+>   XRONOS: An Open Data Infrastructure for Archaeological Chronology.
 
 It is a [Quarto manuscript](https://quarto.org/docs/manuscripts/) written in 
 Markdown with embedded R code.

@@ -1,5 +1,5 @@
 ---
-title: "XRONOS: an open data infrastructure for archaeological chronology"
+title: "XRONOS: An Open Data Infrastructure for Archaeological Chronology"
 short-title: XRONOS
 author:
   - name: Joe Roe
@@ -139,7 +139,7 @@ The web frontend can be accessed via <https://xronos.ch> and all components of t
 In the remainder of this paper, we describe the concept and implementation of XRONOS in relation to the state of the art in open chronometric data in archaeology, and evaluate our progress in achieving these goals as of writing.
 Since we envisage both XRONOS as a dataset and XRONOS as software to be continually developing resources, the description here should be read as a 'snapshot' of the project as of writing rather than its final state.
 
-# State of the art
+# State of the Art
 
 ## Compilations of radiocarbon dates {#sec-c14-compilation}
 
@@ -792,11 +792,11 @@ Individual contributors to the XRONOS database to date include Chiara Huwiler, R
 A complete and up-to-date list of acknowledgements for the project can be found at <https://xronos.ch/about/acknowledgements>.
 <!-- TODO: peer reviewers -->
 
-# Funding statement
+# Funding Statement
 
 This work was funded by the Swiss National Science Foundation ([SNSF Project #198152](https://data.snf.ch/grants/grant/198153)) and the University of Bern (UniBE Initiator Grant 2019, Caroline Heitz, Project 'Time and Temporality').
 
-# Data accessibility statement
+# Data Accessibility Statement
 
 The data and R code used to produce our analysis of the state of the art in radiocarbonc compilation, including all the figures presented here, can be accessed via Zenodo at (<!-- TODO: add link -->*link omitted for blind review, included in submission materials*)
 
