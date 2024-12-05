@@ -1,8 +1,9 @@
-# XRONOS: An Open Data Infrastructure for Archaeological Chronology (Research Compendium)
+# Data and code for 'XRONOS: An Open Data Infrastructure for Archaeological Chronology'
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14282599.svg)](https://doi.org/10.5281/zenodo.14282599)
 
-This is the manuscript of our paper describing [XRONOS](https://xronos.ch):
+This research compendium contains the data and code accompanying our paper 
+describing [XRONOS](https://xronos.ch):
 
 > Roe, J., Schmid, C., Ebrahimiabareghi, S., Heitz, C. & Hinz, M. in prep. 
 >   XRONOS: An Open Data Infrastructure for Archaeological Chronology.
