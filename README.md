@@ -1,4 +1,4 @@
-# XRONOS: An Open Data Infrastructure for Archaeological Chronology
+# XRONOS: An Open Data Infrastructure for Archaeological Chronology (Research Compendium)
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14282599.svg)](https://doi.org/10.5281/zenodo.14282599)
 
