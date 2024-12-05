@@ -53,6 +53,8 @@ number-sections: true
 bibliography: 
   - references.bib
   - data/c14_datasets.bib
+nocite: | # workaround for lack of table references
+  @Al-Abyadh-Balghelam-Dalma-JebelEtAl, @Alcantara2021, @AndersonEtAl2010, @BANADORA, @BarceloAlvarezEtAl2013, @Benz2010, @BirdEtAl2022, @BohnerSchyle2004, @BronkRamseyEtAl2009, @Capriles2023, @CapuzzoEtAl2014, @ClistEtAl2023, @CochraneEtAl2021, @CourtneyMustaphi2016, @CremaEtAl2016, @DeeEtAl2012, @DeeEtAl2013, @dErricoEtAl2011, @deSaulieuEtAl2017, @Diaz-RodriguezEtAl2023, @DouglassEtAl2019, @FlohrEtAl2016, @GajewskiEtAl2011, @GarnettEtAl2023, @GayoEtAl2015, @GillespieEtAl1984, @GregoriodeSouza2020, @GrossmannEtAl2023, @HoebeEtAl2023, @HoggarthEtAl2021, @HuetEtAl2022, @HuetEtAl2024, @IRDD, @KatsianisEtAl2020, @KellyEtAl2022, @KimEtAl2021, @Kudo2018, @KudoEtAl2023, @LinnenluckeEtAl2023, @Lipo2020, @LoftusEtAl2019, @LucariniEtAl2020, @ManningEtAl2016, @Martinez-GrauEtAl2021, @McFadgenEtAl2000, @MichczynskiEtAl1995, @PalmisanoEtAl2017, @PalmisanoEtAl2022, @PalmisanoEtAl2022a, @Pardo-GordoEtAl2023, @Perrin2019, @PetcheyEtAl2022, @Rademaker2024, @RademakerEtAl2013, @RADON, @RADONB, @RADONB2024, @Raetzel-Fabian1999, @RamseyEtAl2010, @ReingruberThissen2005, @ReingruberThissen2009, @ReingruberThissen2017, @Riris2021, @SeidenstickerSchmid2021, @TanindiErdogu2005, @UriarteGonzalezEtAl2017, @VanStrydonckDeRoock, @Vermeersch2024, @WangEtAl2014, @Weninger2022, @WilliamsEtAl2008, @WilliamsEtAl2014, @WilliamsSmith2012, @WilliamsSmith2013
 format:
   elsevier-pdf:
     keep-tex: true    
@@ -799,3 +801,5 @@ This work was funded by the Swiss National Science Foundation ([SNSF Project #19
 The data and R code used to produce our analysis of the state of the art in radiocarbonc compilation, including all the figures presented here, can be accessed via Zenodo at (<!-- TODO: add link -->*link omitted for blind review, included in submission materials*)
 
 The database and software described in this paper is open source and can be accessed at <https://github.com/xronos-ch>.
+
+# References
