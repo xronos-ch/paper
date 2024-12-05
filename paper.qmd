@@ -26,6 +26,8 @@ author:
     roles: [conceptualization, funding, editing]
   - name: Martin Hinz
     orcid: 0000-0002-9904-6548
+    email: martin.hinz@unibe.ch
+    corresponding: true
     affiliation:
     - ref: iaw
     roles: [conceptualization, funding, supervision, writing, editing, software]
@@ -33,11 +35,9 @@ affiliations:
   - id: iaw
     name: University of Bern
     department: Institute of Archaeological Sciences
-    country: Switzerland
     url: https://www.iaw.unibe.ch/
   - id: mpg
     name: Max Planck Institute for Geoanthropology
-    country: Germany
     url: https://www.shh.mpg.de/
 abstract: |
   XRONOS (<https://xronos.ch>) is an open data infrastructure for the backbone of the archaeological record – chronology. It provides open access to published radiocarbon dates and other chronometric data from any period, anywhere in the world. By collating a large number of existing regional and global compilations of dates, XRONOS offers the most comprehensive radiocarbon database yet published, with over 350,000 radiocarbon and 75,000 site records. It also provides a foundation for expanding the systematic collection of chronometric information beyond radiocarbon, with support for typological and dendrochronological dates and a generalisable data model that can be adapted to other methods of absolute dating. Automated and semi-automated quality control processes ensure that data from diverse sources is continuously integrated and standardised, making it easier to find information of interest and reducing the need for manual data cleaning by end users. In this paper we describe the concept and implementation of XRONOS in relation to the state of the art in chronometric data-sharing, and evaluate its potential as a general-purpose open repository and curation platform for archaeological chronology.
@@ -48,21 +48,31 @@ keywords:
   - radiocarbon dating
   - dendrochronology
   - typological dating
-published: "Manuscript for submission to the *Journal of Computer Applications in Archaeology*"
+#published: "Manuscript for submission to the *Journal of Computer Applications in Archaeology*"
 number-sections: true
-bibliography: references.bib
+bibliography: 
+  - references.bib
+  - data/c14_datasets.bib
 format:
-  hikmah-pdf:
-    papersize: a4
-    mainfont: "Linux Libertine O" # had to adjust, otherwise was not rendering
-    sansfont: "URW Gothic"
-    biblatex-chicago: true
-    biblio-style: authordate
-    biblatexoptions:
-      - backend=biber
-      - autolang=hyphen
-      - isbn=false
-      - uniquename=false
+  elsevier-pdf:
+    keep-tex: true    
+    cite-method: citeproc
+    journal:
+      name: Journal of Computer Applications in Archaeology
+      formatting: doubleblind
+  # Pretty but broken:
+  # https://github.com/andrewheiss/hikmah-academic-quarto/issues/7
+  # hikmah-pdf:
+  #   papersize: a4
+  #   mainfont: "Linux Libertine O"
+  #   sansfont: "URW Gothic"
+  #   biblatex-chicago: true
+  #   biblio-style: authordate
+  #   biblatexoptions:
+  #     # - backend=biber
+  #     - autolang=hyphen
+  #     - isbn=false
+  #     - uniquename=false
 #  html:
 #    page-layout: article
 #    toc: true
@@ -147,15 +157,48 @@ n_c14_datasets <- nrow(c14_datasets)
 n_c14_datasets_sans_publication_year <- n_filter(c14_datasets, is.na(publication_year))
 ```
 
+```{r tbl-c14-datasets}
+#| tbl-cap: Summary of published compilations of radiocarbon dates. For full data, see supplementary materials.
+# References in tables broken by:
+# https://github.com/quarto-dev/quarto-cli/issues/9342
+c14_datasets |>
+  transmute(
+    database = glue("[{name}]({url})"),
+    publication_year, n_dates, citations
+  ) |>
+  arrange(publication_year) |>
+  gt() |>
+  cols_label(
+    publication_year = "published",
+    citations = "references",
+    n_dates = "dates"
+    ) |>
+  cols_label_with(everything(), str_to_sentence) |>
+  sub_missing(everything()) |>
+  fmt_markdown(c(database, citations)) |>
+  fmt_number(c(n_dates), decimals = 0) |>
+  cols_width(
+    database ~ pct(40),
+    publication_year ~ pct(15),
+    n_dates ~ pct(15),
+    citations ~ pct(30)
+  ) |>
+  cols_align(
+    "left", c(database)
+  ) |>
+  tab_options(
+    table.font.size = 13
+  )
+```
+
 Despite these inefficiencies, there have been a profusion of published radiocarbon compilations since the decline of the date list.
-Our review of the literature identified `r n_c14_datasets` published since 1994.
+Our review of the literature identified `r n_c14_datasets` published since 1994 (Table @tbl-c14-datasets and supplementary materials).
 This is almost certainly an undercount, because our firsthand knowledge of regional literature is limited to Europe and West Asia and many resources only ever existed in 'grey' formats (e.g. websites that were not indexed and no longer exist).
 We also restricted ourselves to structured datasets disseminated primarily in a digital format; 
 'date lists' in printed periodicals and gazetteers were excluded.
-A full list of the datasets we identified can be found in the supplementary materials.
 
 ```{r fig-c14-datasets-time}
-#| fig-cap: Cumulative number of radiocarbon compilations published since 1995 according to our survey (see supplementary materials)
+#| fig-cap: Cumulative number of radiocarbon compilations published since 1995
 c14_datasets |>
   drop_na(publication_year) |>
   count(publication_year, sort = TRUE) |>
@@ -166,7 +209,7 @@ c14_datasets |>
   scale_x_continuous(breaks = scales::breaks_width(5)) +
   labs(x = NULL, y = "Datasets*",
        caption = glue("* Excludes {english(n_c14_datasets_sans_publication_year)} datasets with an unknown year of publication")) +
-  theme_half_open()
+  theme_minimal_vgrid()
 ```
 
 The number of available compilations has increased exponentially since around 1995 (@fig-c14-datasets-time).
@@ -731,7 +774,7 @@ Our immediate development goals include the incorporation of dendrochronology in
 
 Looking beyond the near term, we have endeavoured to create a sustainable infrastructure that can be maintained by a wider scholarly commons – though we must acknowledge that this is a difficult problem, and one that is as much organisational than technical.
 The source code for all the software components of the system are available online (at <https://github.com/xronos-ch>) under open licenses.
-The databases of the instance at <https://xronos.ch> are also archived with Zenodo (<!-- TODO: link -->).
+The databases of the instance at <https://xronos.ch> are also archived with Zenodo (<link omitted for blind review><!-- TODO: link -->).
 With these two resources we reduce XRONOS' 'bus factor'; if we are not able to continue operating XRONOS, somebody else can fully recreate it.
 Equally importantly, we enable the 'right to fork' should others wish to take the software and/or database in another direction.
 But aside from these extreme scenarios, the long-term sustainability of XRONOS is contingent on the existence of a community of scholars that use and contribute back to it.
