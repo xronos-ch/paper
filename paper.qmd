@@ -276,7 +276,7 @@ mean_c14_datasets_lifespan <- mean(c14_datasets$last_updated - c14_datasets$publ
 Datasets based on literature review also become out of date almost immediately upon publication, due the the constant production of new dates.
 Unfortunately this applies to many databases that are in theory continuously updated, as it is common to see them become unmaintained and or unexpectedly become unavailable.
 Of the `r n_c14_datasets` published datasets we identified, `r n_c14_datasets_maintained` were intended to be continuously updated, but only `r n_c14_datasets_recently_updated` have received updates in the last two years.
-The average 'lifespan' of a dataset from its publication to its last update is around `r english(round(mean_c14_datasets_lifespan))` years.
+The mean 'lifespan' of a dataset from its publication to its last update is around `r english(round(mean_c14_datasets_lifespan))` years.
 Most radiocarbon datasets we reviewed were compiled with a specific goal in mind (e.g. a particular analysis) and, even where there is the intention to keep them updated afterwards, the exigencies of scientific production combined with the labour-intensive nature of the process make that difficult to achieve in practice.
 
 Laboratory databases solve the problem of currency, but tend to have more arbitary coverage, since the inclusion of data is determined by who submits dates to that lab, not any form of principled curation.
@@ -317,7 +317,7 @@ c14_global_density <- c14_global |>
 ```
 
 ```{r fig-c14-global, message=FALSE, warning=FALSE}
-#| fig-cap: Geographic (kernel density) and temporal (sum calibration) of georeferenced dates in XRONOS and other global radiocarbon compilations
+#| fig-cap: Geographic (quantile kernel density) and temporal (sum calibration) of georeferenced dates in XRONOS and other global radiocarbon compilations
 #| fig-height: 5
 plot_c14_density <- function(density, title, coastline = coast) {
   ggplot() +
@@ -428,7 +428,7 @@ Radiocarbon has been by far the most active area of open data compilation, but a
 In periods beyond the practical limit of radiocarbon dating (c. 55,000 BP), other types of radiometric (K–Ar, U–Pb, etc.), chemical or luminescence dating offer an alternative [@Aitken1999].
 Conversely, in historic periods, or on calibration 'plateaus' [@GuldersonEtAl2005], radiocarbon is often less important than conventional typological dating (based on artefact characteristics), which in these periods can offer comparable or better temporal resolution, or direct dating based on epigraphy [@HermankovaEtAl2021], numismatics [@KemmersMyrberg2011] or historical sources.
 In places where it is widely available, dendrochronology [@Baillie2014] also produces significantly better resolved chronologies and therefore tends to be the main source of chronometric data.
-Other more application-specific chronological methods include shoreline dating [@Brogger1905; @Roalkvam2023], lichenometry [@Benedict2009] and rock weathering dating [@Whitley2012; @Bednarik2020].
+Other more application-specific chronological methods include shoreline dating [@Brogger1905; @Roalkvam2023], lichenometry [@Benedict2009] and rock weathering dating [@Whitley2012; @Bednarik2020; @AndreaeEtAl2020].
 
 Compared to radiocarbon, there are few examples of systematic, open compilations of any of these other types of data. This is most striking when it comes to other radiometric/scientific dating methods, as the data structures and publication modes are very similar to radiocarbon.
 The 'Radiocarbon Palaeolithic Europe Database' [@Vermeersch2020], despite the name, includes a significant number of thermo- and optically stimulated luminescence, electon spin resonance, uranium–thorium and amino acid dates.
@@ -457,7 +457,7 @@ Typological dates—i.e. relative, expertise- or seriation-based dating based on
 For example, the majority of the radiocarbon datasets we reviewed (@sec-c14-compilation) included some form of typological chronological information in the form of a 'period' or 'culture' column.
 This is also typically present in many other forms of systematic compilation work in archaeology, for example site gazetteers.
 Aggregated typological information from such sources are often used in aoristic analysis and related methods [@Mischka2004; @Crema2024].
-What is lacking in this presentation of typological dating is metadata on how the determination was made and how exactly it is to be understood.
+But this presentation of typological dating lacks metadata on how the determination was made and how exactly it is to be understood.
 Like any archaeological date, a typological date is derived from a physical sample – the object or set of object from which a chronological estimate was derived.
 Typological dates on one class of object may well clash with other classes of object, or for that matter with scientific dates – does one trust the date on pottery, the date on architecture, or the radiocarbon date?
 Without additional metadata on e.g. who made the typological determination or what the radiocarbon date was obtained on, such inconsistencies are difficult to resolve.
@@ -616,7 +616,7 @@ The XRONOS data model presents several opportunities to link to other resources 
 We use controlled vocabularies such as the GBIF Backbone Taxonomy [@GBIF2023, for taxonomic descriptions of samples] to both standardise fields and to link the two resources based on this shared concept.
 There are concordances between XRONOS entities and several other specialised data infrastructures in archaeology, such as PeriodO [@RabinowitzEtAl2016, mapping to typological chrons] and gazetters like Pleiades [@Pleiades] or Vici [@Voorburg2012, mapping to site names].
 Moving beyond archaeology, Wikidata (<https://wikidata.org>) already includes many of the concepts represented in the XRONOS model (e.g. an 'archaeological site', <https://www.wikidata.org/wiki/Q839954>).
-Linking to Wikidata is especially useful because it dissimenates—and thereby preserves—the data compiled in XRONOS beyond the specialist/academic community.
+Linking to Wikidata is especially useful because it disseminates—and thereby preserves—the data compiled in XRONOS beyond the specialist/academic community.
 It also allows us to enrich the database with contextual information that otherwise be beyond our scope and resources, for example embedding multilingual descriptions of sites from Wikipedia articles on site records where the site has been linked to a Wikidata item.
 
 Conversely, we encourage others to use XRONOS as a linked open data resource by providing stable URLs and a machine-readable interface for every record.
