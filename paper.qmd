@@ -782,7 +782,7 @@ Our immediate development goals include the incorporation of dendrochronology in
 
 Looking beyond the near term, we have endeavoured to create a sustainable infrastructure that can be maintained by a wider scholarly commons – though we must acknowledge that this is a difficult problem, and one that is as much organisational than technical.
 The source code for all the software components of the system are available online (at <https://github.com/xronos-ch>) under open licenses.
-The databases of the instance at <https://xronos.ch> are also archived with Zenodo (*link omitted for blind review*<!-- TODO: link -->).
+The databases of the instance at <https://xronos.ch> are also archived with Zenodo at <https://doi.org/10.5281/zenodo.14282598>.
 With these two resources we reduce XRONOS' 'bus factor'; if we are not able to continue operating XRONOS, somebody else can fully recreate it.
 Equally importantly, we enable the 'right to fork' should others wish to take the software and/or database in another direction.
 But aside from these extreme scenarios, the long-term sustainability of XRONOS is contingent on the existence of a community of scholars that use and contribute back to it.
@@ -792,11 +792,12 @@ But aside from these extreme scenarios, the long-term sustainability of XRONOS i
 The XRONOS project was carried under the direction of Albert Hafner. 
 Individual contributors to the XRONOS database to date include Chiara Huwiler, Rivana Moser, Tomasz Chmielewski, and Stephanie Döppler. 
 A complete and up-to-date list of acknowledgements for the project can be found at <https://xronos.ch/about/acknowledgements>.
-<!-- TODO: peer reviewers -->
+
+We are also grateful to the two anonymous reviewers of our manuscript, whose comments have improved the finished paper.
 
 # Funding Statement
 
-This work was funded by the Swiss National Science Foundation ([SNSF Project #198152](https://data.snf.ch/grants/grant/198153)) and the University of Bern (UniBE Initiator Grant 2019, Caroline Heitz, Project 'Time and Temporality').
+This work was funded by the Swiss National Science Foundation ([SNSF Project #198152](https://data.snf.ch/grants/grant/198153); [SNSF Project #194326](https://data.snf.ch/grants/grant/194326)) and the University of Bern (UniBE Initiator Grant 2019).
 
 # Data Accessibility Statement
 
