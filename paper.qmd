@@ -140,7 +140,7 @@ The core of XRONOS is a server application that ingests chronological data from 
 The web frontend can be accessed via <https://xronos.ch> and all components of the software are developed as free and open source software with source code available at <https://github.com/xronos-ch>.
 
 In the remainder of this paper, we describe the concept and implementation of XRONOS in relation to the state of the art in open chronometric data in archaeology, and evaluate our progress in achieving these goals as of writing.
-Since we envisage both XRONOS as a dataset and XRONOS as software to be continually developing resources, the description here should be read as a 'snapshot' of the project as of version 1.2.0.
+Since we envisage both XRONOS as a dataset and XRONOS as software to be continually developing resources, the description here should be read as a 'snapshot' of the project as of [version 1.1.0](https://github.com/xronos-ch/xronos.rails/releases/tag/v1.1.0).
 
 # State of the Art
 
@@ -166,34 +166,35 @@ n_c14_datasets_sans_publication_year <- n_filter(c14_datasets, is.na(publication
 #| tbl-cap: Summary of published compilations of radiocarbon dates. For full data, see supplementary materials.
 # References in tables broken by:
 # https://github.com/quarto-dev/quarto-cli/issues/9342
-c14_datasets |>
-  transmute(
-    database = glue("[{name}]({url})"),
-    publication_year, n_dates, citations
-  ) |>
-  arrange(publication_year) |>
-  gt() |>
-  cols_label(
-    publication_year = "published",
-    citations = "references",
-    n_dates = "dates"
-    ) |>
-  cols_label_with(everything(), str_to_sentence) |>
-  sub_missing(everything()) |>
-  fmt_markdown(c(database, citations)) |>
-  fmt_number(c(n_dates), decimals = 0) |>
-  cols_width(
-    database ~ pct(40),
-    publication_year ~ pct(15),
-    n_dates ~ pct(15),
-    citations ~ pct(30)
-  ) |>
-  cols_align(
-    "left", c(database)
-  ) |>
-  tab_options(
-    table.font.size = 13
-  )
+#c14_datasets |>
+#  transmute(
+#    database = glue("[{name}]({url})"),
+#    publication_year, n_dates, citations
+#  ) |>
+#  arrange(publication_year) |>
+#  gt() |>
+#  cols_label(
+#    publication_year = "published",
+#    citations = "references",
+#    n_dates = "dates"
+#    ) |>
+#  cols_label_with(everything(), str_to_sentence) |>
+#  sub_missing(everything()) |>
+#  fmt_markdown(c(database, citations)) |>
+#  fmt_number(c(n_dates), decimals = 0) |>
+#  cols_width(
+#    database ~ pct(40),
+#    publication_year ~ pct(15),
+#    n_dates ~ pct(15),
+#    citations ~ pct(30)
+#  ) |>
+#  cols_align(
+#    "left", c(database)
+#  ) |>
+#  tab_options(
+#    table.font.size = 13
+#  )
+"omitted from manuscript – see attached file `table1.html`"
 ```
 
 Despite these inefficiencies, there have been a profusion of published radiocarbon compilations since the decline of the date list.
@@ -436,8 +437,6 @@ Similarly, the AustArch database [@WilliamsEtAl2014] includes luminescence dates
 Apart from these and a few other exceptions where other scientific dates are collected alongside radiocarbon, we are not aware of any open compilations of them.
 
 ### Dendrochronology
-
-<!-- TODO: add references? -->
 
 With regard to tree-ring data, some databases provide valuable resources for dendrochronological studies in general but are not primarily intended for archaeological contexts. For instance, Dendro4Art specializes in dendrochronological data related to wooden art objects, such as sculptures and panel paintings. While this focus serves art historians and conservationists well, its utility for studying prehistoric datasets is minimal. Similarly, the Dendrochronological Picture Database, maintained by the Swiss Federal Institute for Snow and Avalanche Research (SLF), offers a visual archive of approximately 1,400 images documenting dendrochronological phenomena. Although valuable as an educational resource, it does not provide raw data necessary for chronological or archaeological analyses. Additionally, the OLDLIST and Eastern OLDLIST databases focus on documenting the maximum ages of trees worldwide. Their emphasis on biological longevity, while significant for ecological research, limits their applicability to archaeological or prehistoric investigations.
 

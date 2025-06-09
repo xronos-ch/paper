@@ -1,0 +1,60 @@
+---
+title: "Table 1"
+subtitle: "From Roe et al., 'XRONOS: An Open Data Infrastructure for Archaeological Chronology'"
+bibliography: 
+  - references.bib
+  - data/c14_datasets.bib
+execute:
+  echo: false
+---
+
+This table was omitted from the main manuscript due to formatting restrictions.
+
+```{r deps}
+library("dplyr", warn.conflicts = FALSE)
+library("glue")
+library("gt")
+library("readr")
+library("stringr")
+```
+
+```{r data-c14-datasets}
+c14_datasets <- read_tsv("data/c14_datasets.tsv", show_col_types = FALSE)
+
+n_c14_datasets <- nrow(c14_datasets)
+n_c14_datasets_sans_publication_year <- nrow(filter(c14_datasets, is.na(publication_year)))
+```
+
+```{r tbl-c14-datasets}
+#| tbl-cap: Summary of published compilations of radiocarbon dates. For full data, see supplementary materials.
+# References in tables broken by:
+# https://github.com/quarto-dev/quarto-cli/issues/9342
+c14_datasets |>
+  transmute(
+    database = glue("[{name}]({url})"),
+    publication_year, n_dates, citations
+  ) |>
+  arrange(publication_year) |>
+  gt() |>
+  cols_label(
+    publication_year = "published",
+    citations = "references",
+    n_dates = "dates"
+    ) |>
+  cols_label_with(everything(), str_to_sentence) |>
+  sub_missing(everything()) |>
+  fmt_markdown(c(database, citations)) |>
+  fmt_number(c(n_dates), decimals = 0) |>
+  cols_width(
+    database ~ pct(40),
+    publication_year ~ pct(15),
+    n_dates ~ pct(15),
+    citations ~ pct(30)
+  ) |>
+  cols_align(
+    "left", c(database)
+  ) |>
+  tab_options(
+    table.font.size = 13
+  )
+```
