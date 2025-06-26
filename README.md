@@ -5,8 +5,9 @@
 This research compendium contains the data and code accompanying our paper 
 describing [XRONOS](https://xronos.ch):
 
-> Roe, J., Schmid, C., Ebrahimiabareghi, S., Heitz, C. & Hinz, M. in prep. 
+> Roe, J., Schmid, C., Ebrahimiabareghi, S., Heitz, C. & Hinz, M. in press. 
 >   XRONOS: An Open Data Infrastructure for Archaeological Chronology.
+>   *Journal of Computer Applications in Archaeology*.
 
 It is a [Quarto manuscript](https://quarto.org/docs/manuscripts/) written in 
 Markdown with embedded R code.
