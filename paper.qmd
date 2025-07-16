@@ -62,6 +62,10 @@ format:
     journal:
       name: Journal of Computer Applications in Archaeology
       formatting: preprint
+  docx:
+    toc: true
+    number-sections: true
+    csl: "journal-of-computer-applications-in-archaeology.csl"
   # Pretty but broken:
   # https://github.com/andrewheiss/hikmah-academic-quarto/issues/7
   # hikmah-pdf:
@@ -75,10 +79,6 @@ format:
   #     - autolang=hyphen
   #     - isbn=false
   #     - uniquename=false
-#  html:
-#    page-layout: article
-#    toc: true
-#    embed-resources: true
 execute:
   echo: false
   cache: true
